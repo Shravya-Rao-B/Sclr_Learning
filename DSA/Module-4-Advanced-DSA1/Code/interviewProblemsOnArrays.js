@@ -4,24 +4,16 @@ Given a set of non-overlapping intervals, insert a new interval into the interva
 
 You may assume that the intervals were initially sorted according to their start times.
 
-
-
 Problem Constraints
 0 <= |intervals| <= 105
-
-
 
 Input Format
 First argument is the vector of intervals
 
 second argument is the new interval to be merged
 
-
-
 Output Format
 Return the vector of intervals after merging
-
-
 
 Example Input
 Input 1:
@@ -48,7 +40,6 @@ Explanation 1:
 Explanation 2:
 
 (2,6) completely merges the given intervals
-
 
 
 Expected Output
@@ -207,37 +198,29 @@ function mergeIntervalsWithWhile(intervals, new_interval){
 // console.log(mergeIntervalsWithWhile([[1, 3], [6, 9]],[2,5]))
 // console.log(mergeIntervalsWithWhile([[1, 3], [6, 9]], [2,6]));
 
-console.log(mergeIntervals([[1, 3], [6, 9]], [2,5]));
+// console.log(mergeIntervals([[1, 3], [6, 9]], [2,5]));
+
 /*
 2.
 Given a collection of intervals, merge all overlapping intervals.
 
-
-
 Problem Constraints
 1 <= Total number of intervals <= 100000.
 
-
-
 Input Format
 First argument is a list of intervals.
-
-
 
 Output Format
 Return the sorted list of intervals after merging all the overlapping intervals.
 
 
-
 Example Input
 Input 1:
-
 [1,3],[2,6],[8,10],[15,18]
 
 
 Example Output
 Output 1:
-
 [1,6],[8,10],[15,18]
 
 
@@ -283,6 +266,76 @@ Lastly dont forget to add the current interval to our answer.
 
 
 */
+function mergeOverlappingIntervals(A){
+    let ansArray = [];
+    let B = A.sort((a, b) => {
+        return a[0] - b[0]
+    })
+    let n = A.length;
+    if(n <=1){
+        return A
+    }
+    let s1 = B[0][0];
+    let e1 = B[0][1];
+    let i =1;
+    while(i<n && B[i][0] > e1){
+        console.log('non overlapping loop i, s1, e1', i, s1, e1)
+            ansArray.push([B[i]])
+            i++;
+        }
+     while (i<n && B[i][0] < e1 ){
+            console.log('overlapping loop i, s1,e1', i, s1, e1)
+            s1 = Math.min(B[i][0], s1);
+            e1 = Math.max(B[i][1], e1);
+            console.log('overlapping loop after new assignment i, s1,e1', i, s1, e1);
+            i++;
+        }
+        ansArray.push([s1, e1]);
+        while(i<n){
+            console.log('after everything i, s1,e1',i, s1, e1 );
+            ansArray.push(B[i]); 
+            i++;
+        }
+        return ansArray;
+}
+// console.log(mergeOverlappingIntervals([[1,3],[2,6],[8,10],[15,18],[3,5]]))
+function mergeOverlappingIntervalsForLoop(A){
+    let B = A.sort((a, b) => a[0] - b[0]);
+    console.log('sorted Array', B);
+    let s1 = B[0][0];
+    let e1 = B[0][1];
+    console.log('s1,e1', s1, e1);
+    let ansArray = [];
+    for(let i= 1; i<B.length; i++){
+        // console.log('i', i);
+        let s = B[i][0];
+        let e = B[i][1];
+        console.log('looping', s, e);
+        // console.log('s1,e1,s,e starting of loop',s1,e1,s,e);
+        if(e1 < s){
+            // console.log('e1 < s', e1, s);
+            // console.log('s1,e1', [s1,e1]);
+            ansArray.push([s1,e1])
+            s1 = s;
+            e1 = e;
+        }
+        else if (e < s1){
+            console.log('e < s1', e, s1);
+            // console.log('s,e', [s,e]);
+            ansArray.push([s,e]) 
+        }
+        else {
+            s1 = Math.min(s1,s);
+            e1 = Math.max(e1,e)
+            ansArray.push([s1,e1])
+            // console.log('s1,e1 after reassignment', s1, e1);
+        }
+    }
+    // ansArray.push([s1,e1]);
+    return ansArray;
+}
+// console.log(mergeOverlappingIntervalsForLoop([[1,3],[2,6],[8,10],[15,18],[3,5]]));
+console.log(mergeOverlappingIntervalsForLoop([[5,6],[1,2],[3,4],[5,13],[10,25]]))
 /*
 3.
 
@@ -394,20 +447,6 @@ Time complexity : O(N)
 Auxiliary Space : O(1)
 
 */
-function mergeOverlappingIntervals(A){
-let sortedA = A.sort((a, b) => {
-    return a[0] - b[0]
-})
-let n = A.length;
-if(n <=1){
-    return A
-}
-for(let i=0; i<n;i++){
-    if(sortedA[i+1][0] < sortedA[i][1]){
-
-    }
-}
-}
 /*
 Bruteforce approach:
 run a loop on Array, run another loop inside to check if the interger expected is present in the array
@@ -457,3 +496,118 @@ function missingInteger(A){
     }
 //Big O(n) ,we will be placing one element in the right position in every swap. max swaps we can have is O(n)
 // console.log(missingInteger([4,2,3,1]));
+/*
+4.
+Given a matrix of integers A of size N x M and an integer B.
+In the given matrix every row and column is sorted in non-decreasing order. Find and return the position of B in the matrix in the given form:
+If A[i][j] = B then return (i * 1009 + j)
+If B is not present return -1.
+
+Note 1: Rows are numbered from top to bottom and columns are numbered from left to right.
+Note 2: If there are multiple B in A then return the smallest value of i*1009 +j such that A[i][j]=B.
+Note 3: Expected time complexity is linear
+Note 4: Use 1-based indexing
+
+
+Problem Constraints
+1 <= N, M <= 1000
+-100000 <= A[i] <= 100000
+-100000 <= B <= 100000
+
+
+Input Format
+The first argument given is the integer matrix A.
+The second argument given is the integer B.
+
+
+Output Format
+Return the position of B and if it is not present in A return -1 instead.
+
+
+Example Input
+Input 1:-
+A = [[1, 2, 3]
+     [4, 5, 6]
+     [7, 8, 9]]
+B = 2
+Input 2:-
+A = [[1, 2]
+     [3, 3]]
+B = 3
+
+
+Example Output
+Output 1:-
+1011
+Output 2:-
+2019
+
+
+Example Explanation
+Expanation 1:-
+A[1][2] = 2
+1 * 1009 + 2 = 1011
+Explanation 2:-
+A[2][1] = 3
+2 * 1009 + 1 = 2019
+A[2][2] = 3
+2 * 1009 + 2 = 2020
+The minimum value is 2019
+
+Hints:
+For any cell Mat[i][j] :
+
+All cells to its right OR bottom are greater than or equal to the value of the current cell.
+All cells to the top OR left are less than or equal to that cell value.
+
+We search traversing from the top right corner of the matrix.
+1) Check if the current element is greater than B,
+then exclude the current column and move to the left column.
+2) Check if the current element is less than B, then exclude the 
+current row and move to the bottom row.
+3) If the current element if equal to B, then the final answer will
+be due to the leftmost occurence of B in the current row.
+
+Time Complexity : O(N + M)
+Space Complexity : O(1)
+*/
+//As per the constraints, Bruteforce does pass
+//Brute force
+function searchInSortedTwoDimMatrix(A, B){
+let rLen = A.length;
+let cLen = A[0].length;
+for(let r=0; r<rLen; r++){
+    for(let c=0; c<cLen; c++){
+        if(A[r][c] == B){
+            // +1 as per the requirement of question
+            return ((r + 1)* 1009) + (c +1)
+        }
+    }
+}
+return -1
+}
+// console.log(searchInSortedTwoDimMatrix([[1, 2, 3],[4, 5, 6],[7, 8, 9]], 2));
+// console.log(searchInSortedTwoDimMatrix([[1, 2],[3, 3]],3))
+
+function searchSortedTwoDimMatrixOptimal(A, B){
+let rLen = A.length;
+let cLen = A[0].length;
+let r = 0;
+let c = cLen -1;
+while(c < cLen && r<rLen){
+if(A[r][c] == B){
+    console.log('r,c', r,c);
+    return (((r + 1) * 1009) + (c+1))
+}
+if(A[r][c] > B){
+    c--;
+}
+if(A[r][c] < B){
+    r++;
+    c = cLen -1;
+}
+}
+return -1;
+}  
+// console.log(searchSortedTwoDimMatrixOptimal([[1, 2, 3],[4, 5, 6],[7, 8, 9]],2))
+// console.log(searchSortedTwoDimMatrixOptimal([[1, 2],[3, 3]], 3));

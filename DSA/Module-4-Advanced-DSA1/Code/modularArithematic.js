@@ -320,4 +320,4 @@ function veryLargePower(A, B){
     ans = fastPower(A, fact, mod);
     return Number(ans);
         }
-console.log(veryLargePower(1,1));
+// console.log(veryLargePower(1,1));
