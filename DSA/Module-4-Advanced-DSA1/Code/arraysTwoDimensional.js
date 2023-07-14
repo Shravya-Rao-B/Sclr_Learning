@@ -2,24 +2,16 @@
 1.
 Given a 2D Matrix A of dimensions N*N, we need to return the sum of all possible submatrices.
 
-
-
 Problem Constraints
 1 <= N <=30
 
 0 <= A[i][j] <= 10
 
-
-
 Input Format
 Single argument representing a 2-D array A of size N x N.
 
-
-
 Output Format
 Return an integer denoting the sum of all possible submatrices in the given matrix.
-
-
 
 Example Input
 Input 1:
@@ -63,12 +55,22 @@ envelopes the element. Thus, for each element, ‘sum’ can be updated as sum +
 More Formally,
 Number of ways to choose from top-left elements (X + 1) * (Y + 1)
 Number of ways to choose from bottom-right elements (N - X) * (N - Y)
-
 */
 function sumOfSubarraysBF(A){
-        
+let R = A.length;
+let C = A[0].length;
+let sum = 0;
+for(let r=0; r<R; r++){
+for(let c=0; c<C; c++){
+let x = (r+1)*(c+1);
+let y =  (R-r)*(C-c); 
+let prod = x * y * A[r][c]
+sum = sum + prod;
 }
-
+}
+return sum;     
+}
+// console.log(sumOfSubarraysBF([[1,2],[3,4]]));
 /*
 2.
 Given a matrix of integers A of size N x M and multiple queries Q, for each query, find and return the submatrix sum.
@@ -217,6 +219,7 @@ pf[0][0] = A[0][0];
 let subMatrixSumArray = []
 let rLen = A.length;
 let cLen = A[0].length;
+let Q = B.length;
 for (let i = 0; i < rLen; i++)
 {
             pf[i][0] = A[i][0];
@@ -271,3 +274,126 @@ return subMatrixSumArray
 }
 // console.log(subMatrixSum([ [5, 17, 100, 11],[0, 0, 2, 8] ], [1, 1],[1, 4],[2, 2],[2, 4]));
 // console.log(subMatrixSum([[1,2,3],[4,5,6],[7,8,9]],[1,2], [1,2], [2,3],[2,3]));
+
+/*
+3.
+Given a row-wise and column-wise sorted matrix A of size N * M.
+Return the maximum non-empty submatrix sum of this matrix.
+
+
+Problem Constraints
+1 <= N, M <= 1000
+-109 <= A[i][j] <= 109
+
+
+Input Format
+The first argument is a 2D integer array A.
+
+
+Output Format
+Return a single integer that is the maximum non-empty submatrix sum of this matrix.
+
+
+Example Input
+Input 1:-
+    -5 -4 -3
+A = -1  2  3
+     2  2  4
+Input 2:-
+    1 2 3
+A = 4 5 6
+    7 8 9
+
+
+Example Output
+Output 1:-
+12
+Output 2:-
+45
+
+
+Example Explanation
+Expanation 1:-
+The submatrix with max sum is 
+-1 2 3
+ 2 2 4
+ Sum is 12.
+Explanation 2:-
+The largest submatrix with max sum is 
+1 2 3
+4 5 6
+7 8 9
+The sum is 45.
+
+Hints:
+Hint 1:
+Imagine you had the same problem but with a 1D array. 
+That is if the array was sorted and find the maximum subarray.
+
+What would be the answer? The answer will be the sum of one of the suffixes right? 
+So we could check over all suffix arrays
+and return the maximum sum. 
+
+The sum of all suffix arrays can be computed in O(N).
+Now apply the same logic on a 2D matrix.
+
+Solution Approach:
+Imagine you had the same problem but with a 1D array. 
+That is if the array was sorted and find the maximum subarray.
+
+What would be the answer? The answer will be the sum of one of the suffixes right? 
+So we could check over all suffix arrays
+and return the maximum sum. 
+
+The sum of all suffix arrays can be computed in O(N).
+Now apply the same logic on a 2D matrix.
+
+What is a suffix matrix? 
+ A matrix whose right lower corner is always the N*M th element. 
+
+Now we can have iterate over all the possible top left corners which is N*M. So N*M matrices.
+The sum of each of these matrices can be computed in O(1) with a precomputation of O(N*M).
+Return the maximum sum of all these matrices. 
+
+Time Complexity - O(N * M)
+Space Complexity - O(N * M)
+
+*/
+function maxSubMatrixSum(A){
+        let R = A.length;
+        let C = A[0].length;
+        let max = Number.NEGATIVE_INFINITY;
+        let sf = Array.from(Array(A.length), () => new Array(A.length));
+        //fill in first column
+        for(let i=0; i<R; i++){
+                sf[i][0] = A[i][0]
+        }
+        //fill in last row
+        for(let i=C-1;i>=0; i--){
+                sf[0][i] = A[0][i]
+        }
+
+        for(let r=0; r<R; r++){
+                for(let c=C-1; c>=1; c--){
+                // console.log('r,c', r,c);
+                sf[r][c] = A[r][c-1] + A[r][c]
+                }
+        }
+        for(let r=R-1; r>=1; r--){
+                for(let c=0; c<C; c++){
+                // console.log('sf error r, c',r, c);
+                sf[r-1][c] =  sf[r][c] + sf[r-1][c] 
+                }
+        }
+        // console.log(sf);
+        for(let r=0; r<R; r++){
+                for(let c=0; c<C; c++){
+                        if(sf[r][c] > max){
+                                max = sf[r][c]
+                        }
+                }
+        }
+        return max;
+}
+// console.log(maxSubMatrixSum([[1,2,3],[4,5,6],[7,8,9]]));
+console.log(maxSubMatrixSum([[-83,-73,-70,-61],[-56,-48,-13,4],[38,48,71,71]]));
