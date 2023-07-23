@@ -271,34 +271,58 @@ function mergeOverlappingIntervals(A){
     let B = A.sort((a, b) => {
         return a[0] - b[0]
     })
+    console.log('B',B);
     let n = A.length;
     if(n <=1){
         return A
     }
     let s1 = B[0][0];
     let e1 = B[0][1];
-    let i =1;
-    while(i<n && B[i][0] > e1){
-        console.log('non overlapping loop i, s1, e1', i, s1, e1)
-            ansArray.push([B[i]])
-            i++;
+    for(let i=1; i<B.length; i++){
+        let s2 = B[i][0];
+        let e2 = B[i][1];
+        if(e1 < s2){
+            console.log('e1<s2', e1,s2)
+            ansArray.push([s1, e1]);
         }
-     while (i<n && B[i][0] < e1 ){
-            console.log('overlapping loop i, s1,e1', i, s1, e1)
-            s1 = Math.min(B[i][0], s1);
-            e1 = Math.max(B[i][1], e1);
-            console.log('overlapping loop after new assignment i, s1,e1', i, s1, e1);
-            i++;
+        else if(e2 < s1){
+            console.log('e2<s1', e2,s1);
+            ansArray.push([s2,e2]);
+            for(let j=i; j<B.length; j++){
+                ansArray.push(B[j])
+            }
+            return;
         }
-        ansArray.push([s1, e1]);
-        while(i<n){
-            console.log('after everything i, s1,e1',i, s1, e1 );
-            ansArray.push(B[i]); 
-            i++;
-        }
-        return ansArray;
+        else {
+            s1 = Math.min(s1, s2);
+            e1 = Math.max(e1, e2);
+            console.log('else part s1, e1', s1, e1);
+        };
+        ansArray.push([s2,e2]);
+    }
+    return ansArray
 }
-// console.log(mergeOverlappingIntervals([[1,3],[2,6],[8,10],[15,18],[3,5]]))
+    // while(i<n && B[i][0] > e1){
+    //     console.log('non overlapping loop i, s1, e1', i, s1, e1)
+    //         ansArray.push([B[i]])
+    //         i++;
+    //     }
+    //  while (i<n && B[i][0] < e1 ){
+    //         console.log('overlapping loop i, s1,e1', i, s1, e1)
+    //         s1 = Math.min(B[i][0], s1);
+    //         e1 = Math.max(B[i][1], e1);
+    //         console.log('overlapping loop after new assignment i, s1,e1', i, s1, e1);
+    //         i++;
+    //     }
+    //     ansArray.push([s1, e1]);
+    //     while(i<n){
+    //         console.log('after everything i, s1,e1',i, s1, e1 );
+    //         ansArray.push(B[i]); 
+    //         i++;
+    //     }
+    //     return ansArray;
+console.log(mergeOverlappingIntervals([[1,3],[2,6],[8,10],[15,18],[3,5]]));
+
 function mergeOverlappingIntervalsForLoop(A){
     let B = A.sort((a, b) => a[0] - b[0]);
     console.log('sorted Array', B);
@@ -335,7 +359,7 @@ function mergeOverlappingIntervalsForLoop(A){
     return ansArray;
 }
 // console.log(mergeOverlappingIntervalsForLoop([[1,3],[2,6],[8,10],[15,18],[3,5]]));
-console.log(mergeOverlappingIntervalsForLoop([[5,6],[1,2],[3,4],[5,13],[10,25]]))
+// console.log(mergeOverlappingIntervalsForLoop([[5,6],[1,2],[3,4],[5,13],[10,25]]))
 /*
 3.
 
@@ -611,3 +635,106 @@ return -1;
 }  
 // console.log(searchSortedTwoDimMatrixOptimal([[1, 2, 3],[4, 5, 6],[7, 8, 9]],2))
 // console.log(searchSortedTwoDimMatrixOptimal([[1, 2],[3, 3]], 3));
+
+/*
+6.
+Given a binary sorted matrix A of size N x N. Find the row with the maximum number of 1.
+
+NOTE:
+
+If two rows have the maximum number of 1 then return the row which has a lower index.
+Rows are numbered from top to bottom and columns are numbered from left to right.
+Assume 0-based indexing.
+Assume each row to be sorted by values.
+Expected time complexity is O(rows + columns).
+
+
+Problem Constraints
+1 <= N <= 1000
+
+0 <= A[i] <= 1
+
+
+
+Input Format
+The only argument given is the integer matrix A.
+
+
+
+Output Format
+Return the row with the maximum number of 1.
+
+
+
+Example Input
+Input 1:
+
+ A = [   [0, 1, 1]
+         [0, 0, 1]
+         [0, 1, 1]   ]
+Input 2:
+
+ A = [   [0, 0, 0, 0]
+         [0, 0, 0, 1]
+         [0, 0, 1, 1]
+         [0, 1, 1, 1]    ]
+
+
+Example Output
+Output 1:
+
+ 0
+Output 2:
+
+ 3
+
+
+Example Explanation
+Explanation 1:
+
+ Row 0 has maximum number of 1s.
+Explanation 2:
+
+ Row 3 has maximum number of 1s.
+
+ Hints:
+ To solve this problem, you just have to iterate through 
+the grid and maintain some variables.
+
+Solution Approach:
+We will start iterating from the top-right of the matrix.
+We check for all rows from top to bottom and store the maximum
+answer so far.
+For every row, we only search from the left of the index of maximum answer so far. 
+
+Time Complexity : O(M + N)
+Space Complexity : O(1)
+
+*/
+function rowWithMaxOne(A){
+    let max = 0;
+    let maxRow = 0;
+    let rLen = A.length;
+    let cLen = A[0].length;
+    for(let r=0; r<rLen; r++){
+        let count = 0;
+        for(let c=cLen-1; c>=0; c--){
+            if(A[r][c] == 0){
+                break;
+            }
+            else {
+                count++;
+            }
+            if(count > max){
+                max = count;
+                maxRow = r;
+            }
+        }
+    }
+    return maxRow;
+}
+// console.log(rowWithMaxOne([[0, 1, 1],[0, 0, 1],[0, 1, 1]]));
+// console.log(rowWithMaxOne([   [0, 0, 0, 0],
+//     [0, 0, 0, 1],
+//     [0, 0, 1, 1],
+//     [0, 1, 1, 1]    ]))
