@@ -135,3 +135,59 @@ To check palindrome, we just have to reverse the latter half of the linked list,
 For finding the midpoint, first, we can in O(N) traverse the whole list and calculate the total number of elements.
 Reversing is again O(N).
  */
+
+function palindromLinkList(A){
+    let temp = A[0];
+    let count = 0;
+    while(temp!= null){
+        count = count + 1;
+        temp = temp.next;
+    }
+    let mid = Math.floor(count/2);
+    let h1 = A;
+    let h2 = mid.next;
+    mid.next = null;
+    console.log('mid', mid);
+    reverseLinkList(h2);
+    function reverseLinkList(hd){
+        let pre = null;
+        let curr = hd;
+        while(curr!= null){
+            let nxt = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = nxt;
+        }
+    }
+    function compareLinkList(head1, head2){
+        while(head1!= null && head2!= null){
+            if(head1.val == head2.val){
+                head1 = head1.next;
+                head2 = head2.next;
+            }
+            else if (head1.val !== head2.val){
+                return false;
+            }
+        }
+        if(head1.next == null && head2.next == null){
+            return true;
+        }
+    }
+    return compareLinkList(h1, h2);
+}
+
+// console.log(palindromLinkList([1, 2, 2, 1]));
+
+function palindromeInArray(A){
+    let p1 = 0;
+    let p2 = A.length -1;
+    while(p1<=p2){
+        if(A[p1] !== A[p2]){
+            return 0
+        }
+        p1++;
+        p2--;
+    }
+    return 1
+    }
+// console.log(palindromeInArray([1,2,2,1]));
