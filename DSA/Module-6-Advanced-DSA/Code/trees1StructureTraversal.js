@@ -159,6 +159,7 @@ Explanation 1:
  Create the binary tree and return the root node of the tree.
   */
 
+ 
  /*
  3.
  Given a binary tree, return the preorder traversal of its nodes values.
@@ -230,8 +231,37 @@ preorderprint(root->right);
 
 Instead of calling the functions, can you put the nodes on a stack and process them?
 
-
  */
+// Definition for a  binary tree node
+//    function TreeNode(data){
+//      this.data = data
+//      this.left = null
+//      this.right = null
+//    }
+
+module.exports = { 
+   //param A : root node of tree
+   //return a array of integers
+     preorderTraversal : function(root) {
+          if (!root) {
+              return [];
+          }
+          let stack = [] , res = [];
+          stack.push(root);
+          while (stack.length) {
+              let node = stack.pop();
+              res.push(node.data);
+              if (node.right) {
+                  stack.push(node.right);
+              }
+              if (node.left) {
+                  stack.push(node.left);
+              }
+          }
+          return res;
+     }
+  };
+
 
 
 
