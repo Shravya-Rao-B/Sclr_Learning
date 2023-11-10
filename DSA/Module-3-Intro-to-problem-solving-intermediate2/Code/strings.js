@@ -486,6 +486,52 @@ function reverseWordByWord(A){
 
 /*
 7.
+
+Scaler Solution:
+module.exports = { 
+    longestPalindrome: function(A) {
+        if (!A || A.length === 0) {
+            return "";
+        }
+
+        let start = 0;
+        let maxLength = 1;
+        const n = A.length;
+        const dp = Array.from({ length: n }, () => Array(n).fill(false));
+
+        // All substrings of length 1 are palindromes
+        for (let i = 0; i < n; i++) {
+            dp[i][i] = true;
+        }
+
+        // Check for substring of length 2
+        for (let i = 0; i < n - 1; i++) {
+            if (A[i] === A[i + 1]) {
+                dp[i][i + 1] = true;
+                start = i;
+                maxLength = 2;
+            }
+        }
+
+        // Check for substrings of length 3 and above
+        for (let k = 3; k <= n; k++) {
+            for (let i = 0; i < n - k + 1; i++) {
+                const j = i + k - 1;
+
+                if (dp[i + 1][j - 1] && A[i] === A[j]) {
+                    dp[i][j] = true;
+
+                    if (k > maxLength) {
+                        start = i;
+                        maxLength = k;
+                    }
+                }
+            }
+        }
+
+        return A.substring(start, start + maxLength);
+    }
+};
 */
 function longestPalindromeBigoNCube(A){
     let B = A.split("");
@@ -526,3 +572,5 @@ return ansStr;
 }
 //This will fail for largeb input. Hard test cases fail.
 //console.log(longestPalindrome("aaaabaaa"));
+
+
