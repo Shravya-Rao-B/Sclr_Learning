@@ -1,4 +1,289 @@
 /*
+1.
+You are given two integers A and B.
+Return 1 if B-th bit in A is set
+Return 0 if B-th bit in A is unset
+Note:
+The bit position is 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+
+Problem Constraints
+1 <= A <= 109
+0 <= B <= 30
+
+
+Input Format
+First argument A is an integer.
+Second argument B is an integer.
+
+
+Output Format
+Return an integer.
+
+
+Example Input
+Input 1:
+A = 4
+B = 1
+Input 2:
+A = 5
+B = 2
+
+
+Example Output
+Output 1:
+0
+Output 2:
+1
+
+Hints:
+The value of the i-th bit is 2^i
+
+Solution Approach:
+The value of the B-th bit is 2^B
+To find the B-th bit in A, we can directly
+perform bitwise AND operation between A and 2^B.
+If the bit was unset we get 0 as the result of the
+biwise AND and if the bit was set then the result is
+2^B
+
+Time Complexity : O(1)
+Space Complexity : O(1)
+*/
+function checkBit(A,B){
+    return (A>>B)&1
+}
+// console.log(checkBit(4,1));
+
+/*
+2.
+Write a function that takes an integer and returns the number of 1 bits present in its binary representation.
+
+
+Problem Constraints
+1 <= A <= 109
+
+
+Input Format
+First and only argument contains integer A
+
+
+Output Format
+Return an integer
+
+
+Example Input
+Input 1:
+11
+Input 2:
+6
+
+
+Example Output
+Output 1:
+3
+Output 2:
+2
+
+
+Example Explanation
+Explaination 1:
+11 is represented as 1011 in binary.
+Explaination 2:
+6 is represented as 110 in binary.
+
+Hints:
+A bruteforce solution will be to convert number into base 2 and count number of ones.
+
+Can you think of something better tho? Maybe a solution which runs in O(number_of_ones) atleast. It’s really similar to the trick used to check if a number is a power of 2 in O(1) approx.
+
+Solution Approach:
+Bruteforce:
+Iterate 32 times, each time determining if the ith bit is a ’1′ or not.
+This is probably the easiest solution, and the interviewer would probably not be too happy about it.
+This solution is also machine dependent (You need to be sure that an unsigned integer is 32-bit).
+In addition, this solution is not very efficient too because you need to iterate 32 times no matter what.
+
+A better solution:
+This special solution uses a trick which is normally used in bit manipulations.
+Notice what x - 1 does to bit representation of x.
+x - 1 would find the first set bit from the end, and then set it to 0, and set all the bits following it.
+
+Which means if x = 10101001010100
+                              ^
+                              |
+                              |
+                              |
+
+                       First set bit from the end
+Then x - 1 becomes 10101001010(011)
+
+All other bits in x - 1 remain unaffected.
+This means that if we do (x & (x - 1)), it would just unset the last set bit in x (which is why x&(x-1) is 0 for powers of 2).
+
+Can you use the above fact to come up with a solution ?
+*/
+function numberOfSetBits(A){
+    let count = 0;
+    for(let i=0; i<32; i++){
+        if((A >> i) & 1 == 1){
+            count++
+        }
+    }
+    return count;
+}
+// console.log(numberOfSetBits(11));
+/*
+3.
+You are given two integers A and B.
+Set the A-th bit and B-th bit in 0, and return output in decimal Number System.
+
+Note:
+The bit positions are 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+
+Problem Constraints
+0 <= A <= 30
+0 <= B <= 30
+
+
+Input Format
+First argument A is an integer.
+Second argument B is an integer.
+
+
+Output Format
+Return an integer.
+
+
+Example Input
+Input 1:
+A = 3
+B = 5
+Input 2:
+A = 4
+B = 4
+
+
+Example Output
+Output 1:
+40
+Output 2:
+16
+
+
+Example Explanation
+For Input 1:
+The binary expression is 101000 which is 40 in decimal.
+For Input 2:
+The binary expression is 10000 which is 16 in decimal
+
+Hints:
+The value of the i-th bit is 2^i
+
+Solution Approach:
+The value of the A-th bit is 2^A and that
+of the B-th bit is 2^B.
+We have to set the A-th bit and the B-th bit
+in 0. This is similar to directly adding 2^A 
+and 2^B to 0. 
+If A = B, then we can just add 2^A to 0.
+
+Time Complexity : O(1)
+Space Complexity : O(1)
+
+*/
+function setBit(A,B){
+    let num = '';
+    let maxBit = Math.max(A,B);
+    for(let i=maxBit; i>=0; i--){
+        if(i== A || i ==B){
+            num = num + "1"
+        }
+        else {
+            num = num + "0"
+        }
+    }
+    return parseInt(num,2)
+}
+// console.log(setBit(3,5))
+/*
+4.
+You are given two integers A and B.
+If B-th bit in A is set, make it unset.
+If B-th bit in A is unset, leave as it is.
+Return the updated A value.
+
+Note:
+The bit position is 0-indexed, which means that the least significant bit (LSB) has index 0.
+
+
+Problem Constraints
+1 <= A <= 109
+0 <= B <= 30
+
+
+Input Format
+First argument A is an integer.
+Second argument B is an integer.
+
+
+Output Format
+Return an integer.
+
+
+Example Input
+Input 1:
+A = 4
+B = 1
+Input 2:
+A = 5
+B = 2
+
+
+Example Output
+Output 1:
+4
+Output 2:
+1
+
+
+Example Explanation
+For Input 1:
+Given N = 4 which is 100 in binary. The 1-st bit is already unset
+For Input 2:
+Given N = 5 which is 101 in binary. We unset the 2-nd bit
+It becomes 001 which is 1 in Decimal.
+
+Hints:
+The value of the B-th bit is 2^B.
+
+Hint2:
+Use the Bitwise AND operator (&) to check the value of the B-th bit in A.
+
+If the result of (A & (1 << B)) is non-zero, it means the B-th bit is set (equal to 1).
+If the result is zero, it means the B-th bit is unset (equal to 0).
+Note :
+1 << B is equivalent to 2B , which is the value of the Bth Bit.
+
+Solution Approach:
+We can find if the B-th bit is set in A by performing
+bitwise AND of A and 2^B. If the result is non-zero then
+we subtract 2^B from A. If the bitwise AND is zero that means
+the B-th bit is already unset. So, then we return A as it is.
+
+Time Complexity : O(1)
+Space Complexity : O(1)
+*/
+function unsetIthBit(A, B){
+    if((A>>B) & 1){
+        let x = A | (1<<B);
+        return x ^ (1<<B);
+    }
+    return A            
+        }
+// console.log(unsetIthBit(4,1))
+/*
 5.
 You are given two integers A and B.
 If B-th bit in A is set, make it unset
@@ -61,7 +346,7 @@ Space Complexity : O(1)
 
 
 */
-function toggleIthBit(A,B){
+function toggleIthBit(A, B) {
     let num = 1 << B;
     return A ^ num;
 }
@@ -118,11 +403,11 @@ Try using for loops iterate from 0 to B-1 and do the needful.
 Initialise a variable ans = A
 Iterate from i = 0 to i = B - 1. If ith bit was set in A that is (A & (1<<i)) != 0, ans -= (1<<i), unset it from the answer. 
 */
-function unsetSetBit(A, B){
+function unsetSetBit(A, B) {
     let ans = A;
-    for(i=0; i<B; i++){
-        if((A & BigInt(1)<<BigInt(i)) != 0)
-        ans =  BigInt(ans) ^ (BigInt(1)<<BigInt(i))
+    for (i = 0; i < B; i++) {
+        if ((A & BigInt(1) << BigInt(i)) != 0)
+            ans = BigInt(ans) ^ (BigInt(1) << BigInt(i))
         // ans = (ans ^ BigInt(1)<<BigInt(i))
     }
     return ans
@@ -181,38 +466,38 @@ Takes help from Sam, score : 3
 
 Scaler solution:
 function(A){
-	    
-	    let ans = 0;
-	    while( A > 0) {
-	        
-	        if( (A&1) > 0 ) ans++;
-	        A/=2;
-	    }
-	    return ans;
-	}
+        
+        let ans = 0;
+        while( A > 0) {
+            
+            if( (A&1) > 0 ) ans++;
+            A/=2;
+        }
+        return ans;
+    }
 */
-function helpFromSam(A){
-    if(A ==0){
+function helpFromSam(A) {
+    if (A == 0) {
         return 0
     }
-    if(A == 1){
+    if (A == 1) {
         return 1
     }
     let help = 1;
     let currScore = 1;
-    while(currScore * 2 <= A){
-            currScore = currScore * 2
+    while (currScore * 2 <= A) {
+        currScore = currScore * 2
     }
-    if(currScore * 2 > A && currScore < A){
+    if (currScore * 2 > A && currScore < A) {
         help = help + A - currScore - 1
     }
     return help
 }
 // console.log(helpFromSam(7));
 
-function helpFromSamForLoop(A){
-    for(let i=0; i<32; i++){
-        if(A & 1<<i){
+function helpFromSamForLoop(A) {
+    for (let i = 0; i < 32; i++) {
+        if (A & 1 << i) {
             cnt++
         }
     }
@@ -290,18 +575,18 @@ Hence, the number of 1’s in the binary representation of A is the number of da
 Scaler Solution:
  let ans = 0;
  function (A){
-	    while( A > 0) {
-	        
-	        if( (A&1) > 0 ) ans++;
-	        A/=2;
-	    }
-	    return ans;
+        while( A > 0) {
+            
+            if( (A&1) > 0 ) ans++;
+            A/=2;
+        }
+        return ans;
     }
 */
-function findingGoodDays(A){
+function findingGoodDays(A) {
     let cnt = 0;
-    for(let i=0; i<32; i++){
-        if(A & (1<<i)){
+    for (let i = 0; i < 32; i++) {
+        if (A & (1 << i)) {
             cnt++;
         }
     }
@@ -359,18 +644,44 @@ Explanation 2:
 
  In the sequence shown in explanation 1, 10th element will be 650.
 
+ Hints:
+ Can you create this full array somehow?
+What will be the time required to create it?
+Can the idea of representing numbers in binary be helpful here?
+
+Solution Approach:
+As we know **5n > 51 + 52 + ... + 5n-1**
+So, we can find the sum of all subsets of the first 13 power of 5.
+since no element will overlap, we will have 2^13 - 1 elements or 8000 elements.
+Simply sort them and answer the query in O(1).
+Time Complexity: O(A*logA).
+
+Else we can use a much faster approach.
+We can represent A in its binary representation.
+If the ith bit(1 based indexing) is set we will add 5i to our answer.
+Time Complexity:- O(log(A))
  
 */
+function nthMagicNumber(A) {
+    let ans = 0;
+    let power = 5;
+    while (A > 0) {
+        console.log('inside loop', A);
+        let r = A % 2;
+        A = Math.floor(A / 2);
+        ans = ans + (r * power)
+        power = power * 5;
+    }
+    return ans;
+}
+// console.log(nthMagicNumber(3));
+// console.log(nthMagicNumber(10));
 /*
-11.
+10.
 Reverse the bits of an 32 bit unsigned integer A.
-
-
 
 Problem Constraints
 0 <= A <= 232
-
-
 
 Input Format
 First and only argument of input contains an integer A.
@@ -413,19 +724,19 @@ Explanation 2:
 Hints:
 
 */
-function reverseBits(A){
-    let i=31;
+function reverseBits(A) {
+    let i = 31;
     let j = 0;
-    while(i > j){
+    while (i > j) {
         console.log('i,j', i, j);
-        if((A & 1<<i ) | (A  & 1<<j)){
-         console.log('condition satisfied',i, j);
-          A = (A ^ (1<<i));
-          A = (A ^ (1<<j));
+        if ((A & 1 << i) | (A & 1 << j)) {
+            console.log('condition satisfied', i, j);
+            A = (A ^ (1 << i));
+            A = (A ^ (1 << j));
         }
         i--;
         j++;
     }
-    return A;  
+    return A;
 }
-console.log(reverseBits(3));
+// console.log(reverseBits(3));

@@ -339,25 +339,23 @@ Since 60542 is greater than 54260, we put Y first.
 
 function largestNumber(A){
     let n = A.length;
-        function myCompare(a,b){
-            console.log('a,b', a,b);
-            if(a =="0" && b == "0")
-            return "0"
-            let num1 = (a+b);
-            let num2 = (b+a);
-            if (num1 > num2)
-            return num1
-            return num2
-        }
-        let ans = A[0].toString();
-        for(let i=0; i<n; i++){
-            for(let j=i+1; j<n ; j++){
-                ans = myCompare(ans, A[j].toString())
-            }
-        }
-        return ans; 
+         // sorts the array lexicographically
+         A.sort((a, b) => {
+            console.log('a + "" + b',a + "" + b);
+            console.log('b + "" + ', b + "" + a );
+            if (a + "" + b > b + "" + a) 
+                return -1;
+            else 
+                return 1;
+        });
+        console.log('A after sort', A);
+        let ans = "";
+        A.forEach((ele) => (ans += ele));
+        if (ans[0] == "0") 
+            return 0;
+        return ans;
     }
-// console.log(largestNumber([3, 30, 34, 5, 9]));
+console.log(largestNumber([3, 30, 34, 5, 9]));
 // console.log(largestNumber([0,0,0,0]));
 // console.log(largestNumber([472,663,964,722,485,852,635,4,368,676,319,412]));
 
@@ -546,6 +544,6 @@ function tensDigitSorting(A){
         }
     }
     for(let i=0; i<A.length; i++){
-        
+
     }
 }
