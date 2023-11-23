@@ -157,37 +157,27 @@ Since the array is sorted, we directly know how many elements are greater than t
 */
 
 function nobleInteger(A){
-    let B = A.sort((a,b) => (a - b));
-//     console.log('B', B);
+    let sortedArray = A.sort((a,b) => (a - b));
+    let B = Array.from(new Set(sortedArray));
+    for(i=0; i<B.length;i++){
+    }
 //     let more = 0;
-    let ans = 0;
     let n = B.length;
-//     for(let i=1; i<B.length; i++){
-//        if(B[i] != B[i -1]){
-//         more = n - i - 1
-//        } 
-//        if(B[i] == more){
-//         ans = ans + 1
-//        }    
-// }
-// if(ans == 0)
-// {
-// return -1
-// }
-// return 1;
-while(i+1<n  && B[i]==B[i+1])
-{
-if(B[i] == n - 1 - i){
-    ans++;
+    for(let i=0; i<n; i++){
+       if(B[i] == n-i-1){
+        return 1
+       }           
 }
-}
+return -1
 }
 // console.log(nobleInteger([3,2,1,3]));
 // console.log(nobleInteger([1,1,3,3]));
 // console.log(nobleInteger([5,6,2]));
 // console.log(nobleInteger([-1,-2,0,0,0,-3]))
 // console.log(nobleInteger([1,2,7,0,9,3,6,0,6]));
-
+// console.log(nobleInteger([-4,-2,0,-1,-6]));
+// console.log(nobleInteger([-4,7,5,3,5,-4,2,-1,-9,-8,-3,0,9,-7,-4,-10,-4,2,6,1,-2,-3,-1,-8,0,-8,-7,-3,5,-1,-8,-8,8,-1,-3,3,6,1,-8,-1,3,-9,9,-6,7,8,-6,5,0,3,-4,1,-10,6,3,-8,0,6,-9,-5,-5,-6,-3,6,-5,-4,-1,3,7,-6,5,-8,-5,4,-3,4,-6,-7,0,-3,-2,6,8,-2,-6,-7,1,4,9,2,-10,6,-2,9,2,-4,-4,4,9,5,0,4,8,-3,-9,7,-8,7,2,2,6,-9,-10,-4,-9,-5,-1,-6,9,-10,-1,1,7,7,1,-9,5,-1,-3,-3,6,7,3,-4,-5,-4,-7,9,-6,-2,1,2,-1,-7,9,0,-2,-2,5,-10,-1,6,-7,8,-5,-4,1,-9,5,9,-2,-6,-2,-9,0,3,-10,4,-6,-6,4,-3,6,-7,1,-3,-5,9,6,2,1,7,-2,5]))
+// console.log(nobleInteger([4,-9,8,5,-1,7,5,3]));
 /*
 3.
 You are given an array A of N elements. Sort the given array in increasing order of number of distinct factors of each element, i.e., element having the least number of factors should be the first to be displayed and the number having highest number of factors should be the last one. If 2 elements have same number of factors, then number with less value should come first.
@@ -268,7 +258,7 @@ function factorsSort(A){
         }
     })
 }
-console.log(factorsSort([6,8,9]));
+// console.log(factorsSort([6,8,9]));
 /*
 4
 
@@ -348,25 +338,214 @@ Since 60542 is greater than 54260, we put Y first.
 */
 
 function largestNumber(A){
-
+    let n = A.length;
+        function myCompare(a,b){
+            console.log('a,b', a,b);
+            if(a =="0" && b == "0")
+            return "0"
+            let num1 = (a+b);
+            let num2 = (b+a);
+            if (num1 > num2)
+            return num1
+            return num2
+        }
+        let ans = A[0].toString();
+        for(let i=0; i<n; i++){
+            for(let j=i+1; j<n ; j++){
+                ans = myCompare(ans, A[j].toString())
+            }
+        }
+        return ans; 
     }
-// return sortedA.join("");
-// console.log(largestNumber([[3, 30, 34, 5, 9]]));
-// console.log(largestNumber([1,12,13,35,34,111]));
+// console.log(largestNumber([3, 30, 34, 5, 9]));
+// console.log(largestNumber([0,0,0,0]));
+// console.log(largestNumber([472,663,964,722,485,852,635,4,368,676,319,412]));
 
-function practice(A){
-let B = A.sort((a,b) => b -a)
-let ans = 0;
-let more = 0;
-if(B[0]== 0)
-for(let i=1; i<A.length; i++){
-    if(B[i] != B[i-1]){
-        more = i
+/*
+7.
+Given an integer array A of size N. Return 1 if the array can be arranged to form an arithmetic progression, otherwise return 0.
+
+A sequence of numbers is called an arithmetic progression if the difference between any two consecutive elements is the same.
+
+
+
+Problem Constraints
+2 <= N <= 105
+
+-109 <= A[i] <= 109
+
+
+
+Input Format
+The first and only argument is an integer array A of size N.
+
+
+
+Output Format
+Return 1 if the array can be rearranged to form an arithmetic progression, otherwise return 0.
+
+
+
+Example Input
+Input 1:
+
+ A = [3, 5, 1]
+Input 2:
+
+ A = [2, 4, 1]
+
+
+Example Output
+Output 1:
+
+ 1
+Output 2:
+
+ 0
+
+
+Example Explanation
+Explanation 1:
+
+ We can reorder the elements as [1, 3, 5] or [5, 3, 1] with differences 2 and -2 respectively, between each consecutive elements.
+Explanation 2:
+
+ There is no way to reorder the elements to obtain an arithmetic progression.
+
+Hints:
+Consider that any valid arithmetic progression will be in sorted order.
+
+Solution Appraoch:
+Consider that any valid arithmetic progression will be in sorted order.
+
+Sort the array, then check if the differences of all consecutive elements are equal.
+
+Time Complexity: O(NlogN)
+Space Complexity: O(1)
+
+Scaler code:
+function(A){
+           
+           A.sort(function(a,b) {return a - b});
+           
+           let d = A[1] - A[0];
+           let n = A.length;
+           let ans = 1;
+           for(let i = 1;  i < n; i++) {
+               if(A[i] - A[i-1] != d)
+                   ans = 0;
+           }
+           return ans;
+       }
+*/
+function arithematicProgression(A){
+    let B = A.sort((a,b) => a-b);
+        let diff = 0;
+        if(A.length >=2)
+         diff = A[1] - A[0];
+        for(let i=1; i<A.length-1; i++){
+            if((A[i+1] - A[i]) !== diff)
+            {
+                console.log("diff and i",diff, i);
+            return 0
+            }
+        }
+        return 1;
+}
+// console.log(arithematicProgression([3,5,1]));
+
+/*
+8.
+Given an array A of N integers. Sort the array in increasing order of the value at the tens place digit of every number.
+
+If a number has no tens digit, we can assume value to be 0.
+If 2 numbers have same tens digit, in that case number with max value will come first
+Solution should be based on comparator.
+
+
+Problem Constraints
+1 <= N <= 105
+
+1 <= A[i] <= 109
+
+
+
+Input Format
+First argument A is an array of integers.
+
+
+
+Output Format
+Return the array after sorting
+
+
+
+Example Input
+Input 1:
+A = [15, 11, 7, 19]
+Input 2:
+A = [2, 24, 22, 19]
+
+
+Example Output
+Output 1:
+[7, 19, 15, 11]
+Output 2:
+[2, 19, 24, 22]
+
+
+Example Explanation
+For Input 1:
+The sorted order is [7, 19, 15, 11]. The tens digit of 7 is 0, 
+and that of 19, 15 and 11 is 1.
+For Input 2:
+The sorted order is [2, 19, 24, 22]. The tens digit of 2 is 0, 
+that of 19 is 1 and that of 22 and 24 is 2.
+
+Hints:
+We can find the tens digit of each element by dividing by 10 and
+then finding the mod of 10 of that value.
+Then we will sort based on that.
+
+Solution approach:
+We will find the tens digit of each element by dividing by 
+10 and then finding the mod of 10 of that value.
+Then we will sort the array using comparator function.
+In the comparator function we will first find the tens digit
+of the two numbers. If this digit is equal, then the larger number 
+will come first. Otherwise, the number with the least tens digit 
+will come first.
+
+Time Complexity : O(N*logN)
+Space Complexity : O(1)
+
+*/
+function tensDigitSorting(A){
+    function compare(a, b){
+        let tensDigitA = (a/10) % 10
+        let tensDigitB = (b/10) % 10
+        if(tensDigitA ==0 && tensDigitB == 0){
+            return Math.max(a,b)
+        }
+        else if(tensDigitA == 0){
+            return a
+        }
+        else if(tensDigitB == 0){
+            return b
+        }
+        else if(tensDigitA == tensDigitB){
+            return Math.max(a,b)
+        }
+        else if(tensDigitA !== tensDigitB){
+            if(tensDigitA < tensDigitB){
+                return a
+            }
+            else {
+                return b
+            }
+        }
     }
-    if(B[i] == more){
-        ans ++
+    for(let i=0; i<A.length; i++){
+        
     }
 }
-return ans;
-}
-// console.log(practice([0,0,2,2,5,5,5,5,8,8,10,10,10,14]))
