@@ -355,7 +355,7 @@ function largestNumber(A){
             return 0;
         return ans;
     }
-console.log(largestNumber([3, 30, 34, 5, 9]));
+// console.log(largestNumber([3, 30, 34, 5, 9]));
 // console.log(largestNumber([0,0,0,0]));
 // console.log(largestNumber([472,663,964,722,485,852,635,4,368,676,319,412]));
 
@@ -519,31 +519,157 @@ Space Complexity : O(1)
 
 */
 function tensDigitSorting(A){
-    function compare(a, b){
-        let tensDigitA = (a/10) % 10
-        let tensDigitB = (b/10) % 10
-        if(tensDigitA ==0 && tensDigitB == 0){
-            return Math.max(a,b)
+    let ans = [];
+    // function compare(a, b){
+    //     console.log('a,b', a, b)
+    //     let tensDigitA = Math.floor((a/10))
+    //     let tensDigitB = Math.floor((b/10))
+    //     if(tensDigitA ==0 && tensDigitB == 0){
+    //         return Math.max(a,b)
+    //     }
+    //     else if(tensDigitA == 0 && tensDigitB != 0){
+    //         return a
+    //     }
+    //     else if(tensDigitB == 0 && tensDigitA != 0){
+    //         return b
+    //     }
+    //     else if(tensDigitA == tensDigitB){
+    //         console.log('came here', a, b);
+    //         return Math.max(a,b)
+    //     }
+    //     else if(tensDigitA !== tensDigitB){
+    //         if(tensDigitA > tensDigitB){
+    //             return a
+    //         }
+    //         else {
+    //             return b
+    //         }
+    //     }
+    // }
+    // for(let i=0; i<A.length; i++){
+    //     ans.push(compare(A[i], A[i+1]))
+    // }
+    // return ans;
+    A.sort((a, b) => {
+        let tempA = Math.floor((a/10)%10);
+        let tempB = Math.floor((b/10)%10);
+        if(tempA === tempB){
+            return b - a
         }
-        else if(tensDigitA == 0){
-            return a
-        }
-        else if(tensDigitB == 0){
-            return b
-        }
-        else if(tensDigitA == tensDigitB){
-            return Math.max(a,b)
-        }
-        else if(tensDigitA !== tensDigitB){
-            if(tensDigitA < tensDigitB){
-                return a
-            }
-            else {
-                return b
-            }
-        }
-    }
-    for(let i=0; i<A.length; i++){
-
-    }
+        return tempA - tempB
+    });
+    return A;
 }
+console.log(tensDigitSorting([15, 11, 7, 19, 9]));
+/*
+6.
+Given an array with N objects colored red, white, or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white, and blue.
+
+We will represent the colors as,
+
+red -> 0
+white -> 1
+blue -> 2
+
+Note: Using the library sort function is not allowed.
+
+
+
+Problem Constraints
+1 <= N <= 1000000
+0 <= A[i] <= 2
+
+
+Input Format
+First and only argument of input contains an integer array A.
+
+
+Output Format
+Return an integer array in asked order
+
+
+Example Input
+Input 1 :
+    A = [0, 1, 2, 0, 1, 2]
+Input 2:
+
+    A = [0]
+
+
+Example Output
+Output 1:
+    [0, 0, 1, 1, 2, 2]
+Output 2:
+
+    [0]
+
+
+Example Explanation
+Explanation 1:
+    [0, 0, 1, 1, 2, 2] is the required order.
+Explanation 2:
+    [0] is the required order
+
+Hints:
+Numbers in the array can only be 0, 1, or 2. How can this be helpful?
+
+Solution Approach:
+There are multiple approaches possible here. We need to make sure we do not allocate extra memory.
+
+Approach 1:
+
+Count the number of red, white, and blue balls.
+Then, in another pass, set the initial redCount number of cells as 0, next whiteCount cell as 1, and next blueCount cells as 2.
+Requires two passes of the array.
+
+Approach 2:
+
+Swap the 0s to the start of the array maintaining a pointer, and 2s to the end of the array.
+1s will automatically be in their right position.
+
+Scaler solution:
+function(A){
+           
+           A.sort(function(a,b) {return a - b});
+           
+           let d = A[1] - A[0];
+           let n = A.length;
+           let ans = 1;
+           for(let i = 1;  i < n; i++) {
+               if(A[i] - A[i-1] != d)
+                   ans = 0;
+           }
+           return ans;
+       }
+*/
+function sortByColor(A){
+    let red = 0;
+    let white = 0;
+    let blue = 0;
+   for(let i=0; i<A.length; i++){
+       if(A[i] == 0){
+          red++ 
+       }
+       else if(A[i] == 1){
+           white++
+       }
+       else {
+           blue++
+       }
+}   
+for(let i=0; i<A.length; i++){
+if(i < red){
+    A[i] = 0;
+}
+else if ( i >= red && i <= red + white-1){
+    A[i] = 1
+}
+else{
+    A[i] = 2
+}
+}
+return A
+}
+// console.log(sortByColor([2,2,2,2,1,1,0,0,2,1,0,2,2,2,1]));
+// console.log(sortByColor([2,0,0,1,0,0,2,2,1,1,0,0,1,0,2,1,1,0,1,0,1,2,2,2,0,0,1,0,2,1,1,2,1,2,2,1,0,2,2,1,1,1,0,1,0,1,0,2,1,2,0,2,0,1,1,0,2,2,1,2,0,2,1,1,1,2,0,1,0,2,2,1,0,0,1,0,1,0,0,0,1,2,1,1,0,2,1,2,0,0,0,2,2,2,2,0,0,0,1,1,0,2,1,2,2,2,1,2,2,0,1,0,1,2,1,1,0,1,2,0,1,0,2,2,1,2,1,0,2,2,1,1,0,2,1,2]))
+
