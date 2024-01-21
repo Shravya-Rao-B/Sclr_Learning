@@ -45,8 +45,47 @@ getArea: It should return area of rectangle as an integer
 getPerimeter: It should return perimeter of rectangle as an integer
 getBottomRight: It should return a Point to represent the bottom right of the Rectangle.
 
+Math logic explained in Quora:
 
+It is true that in some applications of computer science, the upper left corner is considered as the origin of coordinates. For example, digital images assume that system.
+
+In those cases, the x coordinate of the bottom right corner is equal to the width of the image:
+
+𝑥𝑏𝑟=𝑤
+
+And the y coordinate is equal to the minus height:
+
+𝑦𝑏𝑟=−ℎ
+
+Therefore, if the top left corner was not found at the origin, but at the coordinates (𝑥𝑡𝑙;𝑦𝑡𝑙)
+ given, the coordinates of the bottom right corner result:
+
+𝑥𝑏𝑟=𝑥𝑡𝑙+𝑤
+𝑦𝑏𝑟=𝑦𝑡𝑙−ℎ
+
+Link: https://math.stackexchange.com/questions/3090389/find-the-bottom-right-coordinate-of-rectangle
 */
+class Point{
+ x: number;
+ y: number;
+}
+
+class Rectangle{
+     topLeft: Point;
+     width: number;
+     height : number;
+     getArea(): number{
+        return this.width * this.height
+     };
+     getParameter() :number{
+        return 2 * (this.height + this.width)
+     }
+     getBottomRight():Point{
+        this.topLeft.x += this.width;
+        this.topLeft.y -= this.height;
+        return this.topLeft;
+     }
+}
 /* 
 3.
 Consider the following class Student
@@ -184,6 +223,93 @@ My name is A. I am 0 years old.
 Ans:
 My name is null. I am 10 years old.
 */
+/*
+6.
+Create related classes 2 - (Point and Circle)
+Raw Problem
+Create a class Point.
+It should have 2 data-members:
+x:int
+y:int
+Create a class Circle.
+It should have 2 data-members
+center:Point
+radius:int
+It should have 3 methods
+getArea: It should return area of circle as a double
+getParameter: It should return parameter of circle as a double
+isOverlapping: It should take another Circle as parameter and return true if the current circle overlaps with the circle passed as parameter and false otherwise.
+
+Circle overlapping logic:
+https://www.bbc.co.uk/bitesize/guides/z9pssbk/revision/4
+
+Intersection of two circles:
+You may be asked to show that two circles are touching, and say whether they're touching internally or externally.
+
+To do this, you need to work out the radius and the centre of each circle.
+
+If the sum of the radii and the distance between the centres are equal, then the circles touch externally.
+
+If the difference between the radii and the distance between the centres are equal, then the circles touch internally.
+
+Determining whether two circles touch each other
+1.Two circles will touch if the distance between their centres, 
+,is equal to the sum of their radii, or the difference between their radii.
+d = r1 + r2 or 
+d = r1 - r2
+2. Two circles will intersect at two points when 
+r1 - r2 < d < r1 + r2
+3.The centre of one circle will lie on the other circle when 
+d = r1 or
+d = r2
+4.Two circles are concentric when 
+d = 0;
+*/
+class Point{
+    x : number;
+    y : number;
+}
+class Circle{
+    center: Point;
+    radius : number;
+    getArea() : number {
+        return Math.PI * this.radius * this.radius
+    }
+    getPerimeter() : number {
+        return 2 * Math.PI * this.radius
+    }
+    isOverlapping(c: Circle) :Boolean {
+        let distance = Math.sqrt(Math.pow(this.center.x - c.center.x, 2) - 
+        Math.pow(this.center.y - c.center.y,2))
+        return distance <= (this.radius + c.radius);
+    }
+}
+/*
+7.
+
+Create BankAccount class
+
+Raw Problem
+It should have 3 data members
+accountNumber: String
+balance: int
+roi:double (Should represent rate of interest)
+It should have 2 methods
+getSimpleInterest: It should take time (in years) as a parameter. The data type of time should be int. It should return Simple Interest as a double.
+getBalanceWithInterest: It should take time (in years) as a parameter. The data type of time should be int. It should return a new balance (including simple interest) as a double.
+*/
+class BankAccount{
+    accountNumber: String;
+    balance: number;
+    roi: number;
+    getSimpleInterest(time: number) :number{
+        return (this.balance * this.roi * time)/100;
+    }
+    getBalanceWithInterest(t : number) :number{
+        let si = this.getSimpleInterest(t);
+        return (si + this.balance);
+    }
+}
 /*
 8.
 Consider the following class Student
