@@ -195,6 +195,7 @@ In a file called Node.java
 // write your code here
 import java.util.Iterator;
 
+
 public class Node implements Iterable<Node>{
   int data;
   Node next;
@@ -202,6 +203,7 @@ public class Node implements Iterable<Node>{
     this.data = i;
   }
   public Node(int i, Node n){
+    //Next here is just a data in the next node.
     this.data = i;
     this.next = n;
   }
