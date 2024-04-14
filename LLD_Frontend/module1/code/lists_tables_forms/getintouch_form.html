@@ -1,0 +1,63 @@
+/*
+Create the ‘Get in Touch’ Form for your portfolio which should include the following:
+
+1. Name input section (an input of text type)
+
+2. Email input section (an input of email type)
+
+3. Message input section (a textarea)
+
+4. and a submit button (an input of submit type)
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Testcases:
+default-icon
+Verify that the webpage has a proper structure using the <html>, <head>, and <body> tags.
+default-icon
+Verify that the webpage has a <section> tag.
+default-icon
+Verify that the webpage has a <h1> tag that contains the heading 'Get in Touch'.
+default-icon
+Verify that the webpage has <form> tag with 3 <input> tags and 1 <textarea> tags.
+default-icon
+Verify that the webpage has 3 <label> tags.
+
+Complete Solution:
+<section>
+    <h1>Get in Touch</h1>
+    <form>
+        <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Name">
+        </label>
+        <label>
+            <span>Email</span>
+            <input type="email" name="email" placeholder="Email">
+        </label>
+        <label>
+            <span>Message</span>
+            <textarea name="message" placeholder="Message"></textarea>
+        </label>
+        <input name ="submit" type="submit" value="Send" />
+    </form>
+</section>
+*/
+
+<html>
+    <head></head>
+    <body>
+<section>
+    <h1>Get In Touch</h1>
+<form>
+    <label for="name">Name</label>
+    <input id="name" type="text"  placeholder="Name"></br>
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="Email"></br>
+    <label for="message">Message</label> 
+    <textarea id="message" placeholder="Message"></textarea>
+    <input id="submit" type="submit" value="Send">
+    </form>
+    </section>
+    </body>
+</html>

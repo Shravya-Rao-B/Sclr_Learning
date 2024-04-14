@@ -1,0 +1,63 @@
+/*
+Create an HTML form for a survey to collect information about the favourite food of people.
+
+The survey should include the following fields:
+Name (text input)
+Age (number input)
+Gender (radio buttons with Male and Female options)
+Favorite Food (drop-down list with options like Pizza, Chinese food, Indian food, etc.)
+Do you like to cook? (checkbox with Yes/No options)
+Additional comments (textarea input)
+Submit button
+
+Further, refer to the test cases to understand necessary requirements to submit the problem.
+
+Test cases:
+Verify if the form has input fields of following ids: name, age, male, female, cook. Along with select tag with id as 'food', textarea and submit button at last.
+default-icon
+Verify that the drop-down menu for favorite food has Pizza as first default option.
+
+Solution Approach:
+Start by creating the basic structure of the form using the <form> element.
+    Add a text input for the name field and associate it with a label.
+    Add a number input for the age field and associate it with a label.
+    Add radio buttons for the gender field and associate them with a label.
+    Add a drop-down list for the favorite food field and associate it with a label.
+    Add a checkbox for the “Do you like to cook?” field and associate it with a label.
+    Add a textarea for the additional comments field and associate it with a label.
+    Add a submit button to submit the form data.
+    Add the action and method attributes to the form.
+*/
+
+<form action="" method="post">
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" value="name"></br>
+        <label for="age">Age</label>
+    <input id="age" name="age" type="number"></br>
+    Gender:
+    <label for="male">Male</label>
+    <input name="gedner" id="male" type="radio">
+    <label for="female">Female</label>
+    <input name="gedner" id="female" type="radio">
+    <section>
+        <label for="food">Favourite Food:</label>
+        <select id="food">
+            <option selected>Pizza</option>
+            <option>Chinese food</option>
+            <option> Indian food</option>
+        </select>
+    </section>
+    <section>
+        <label>Do You like to cook? 
+        <label for="cook">
+        <input id="cook" type="checkbox"/>Yes
+        <input id="cook" type="checkbox"/>No
+    </section>
+    <section>
+        <label>
+        Additional Comments:
+        <textarea></textarea>
+        </label>
+    </section>
+    <input type="submit" name="submit" value="Submit">
+    </form>
