@@ -1,0 +1,409 @@
+/*
+You are owner of a mystery e-commerce website.
+The special thing about this e-commerce store is the user can only buy a single item once! and all users have unique
+names.
+You are given a users database in the form of an objects' Array.
+Complete the function definition of 'updateUsers' function to perform the following tasks:
+
+1- Create user if does not exist,add orders if any and return users
+2- Create and Initialize order's array if it does not exist and add first order and return users
+3- Add order to existing order's array and return users
+
+Sample Test Case 1:
+
+Input:
+updateUsers(
+users,
+{
+name: "Rajneesh",
+age: 34,
+address: {
+local: "22 Alaknanda",
+city: "Dehradun",
+state: "UK",
+},
+},
+"GOT Book Series"
+)
+
+Output:
+[
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+},
+{
+"id":2,
+"name":"GOT Book Series"
+}
+]
+},
+{
+"name":"Bhavesh",
+"age":37,
+"address":{
+"local":"48 DT Row",
+"city":"Hyderabad",
+"state":"AP"
+}
+},
+{
+"name":"Jasbir",
+"age":38,
+"address":{
+"local":"196 Lama Bhavan",
+"city":"Gangtok",
+"state":"Sikkim"
+},
+"orders":[
+{
+"id":1,
+"name":"Chair"
+},
+{
+"id":2,
+"name":"PS5"
+}
+]
+},
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+}
+]
+}
+]
+
+Sample Test Case 2:
+
+Input:
+updateUsers(users, {
+name: "Ravi",
+age: 24,
+address: {
+local: "25 Iroda",
+city: "Dehradun",
+state: "UK",
+},
+})
+
+Output:
+[
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+}
+]
+},
+{
+"name":"Bhavesh",
+"age":37,
+"address":{
+"local":"48 DT Row",
+"city":"Hyderabad",
+"state":"AP"
+}
+},
+{
+"name":"Jasbir",
+"age":38,
+"address":{
+"local":"196 Lama Bhavan",
+"city":"Gangtok",
+"state":"Sikkim"
+},
+"orders":[
+{
+"id":1,
+"name":"Chair"
+},
+{
+"id":2,
+"name":"PS5"
+}
+]
+},
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+}
+]
+},
+{
+"name":"Ravi",
+"age":24,
+"address":{
+"local":"25 Iroda",
+"city":"Dehradun",
+"state":"UK"
+}
+}
+]
+
+
+Sample Test Case 3:
+
+Input:
+updateUsers(users, {
+name: "Ravi",
+age: 24,
+address: {
+local: "25 Iroda",
+city: "Dehradun",
+state: "UK",
+},
+}, "Chair")
+
+Output:
+[
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+}
+]
+},
+{
+"name":"Bhavesh",
+"age":37,
+"address":{
+"local":"48 DT Row",
+"city":"Hyderabad",
+"state":"AP"
+}
+},
+{
+"name":"Jasbir",
+"age":38,
+"address":{
+"local":"196 Lama Bhavan",
+"city":"Gangtok",
+"state":"Sikkim"
+},
+"orders":[
+{
+"id":1,
+"name":"Chair"
+},
+{
+"id":2,
+"name":"PS5"
+}
+]
+},
+{
+"name":"Rajneesh",
+"age":34,
+"address":{
+"local":"22 Alaknanda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"GOT Book Series"
+}
+]
+},
+{
+"name":"Ravi",
+"age":24,
+"address":{
+"local":"25 Iroda",
+"city":"Dehradun",
+"state":"UK"
+},
+"orders":[
+{
+"id":1,
+"name":"Chair"
+}
+]
+}
+]
+
+Solution Approach:
+function updateUsers(users, userObject, item) {
+// Find the index of the user with the same name as userObject in the users array.
+const existingUserIndex = users.findIndex((user) => user.name === userObject.name);
+
+if (existingUserIndex === -1) {
+// If the user doesn't exist in the array, create a new user.
+const newUser = { ...userObject, orders: [{ id: 1, name: item }] };
+users.push(newUser);
+} else {
+// If the user already exists, update their orders.
+const existingUser = users[existingUserIndex];
+
+if (!existingUser.orders) {
+// If the user doesn't have orders yet, initialize their orders array.
+existingUser.orders = [{ id: 1, name: item }];
+} else {
+// If the user already has orders, add a new order to their orders array.
+const orderCount = existingUser.orders.length;
+existingUser.orders.push({ id: orderCount + 1, name: item });
+}
+}
+
+// Return the updated users array.
+return users;
+}
+Here’s a step-by-step explanation of the code:
+
+The function takes three parameters: users, an array of user objects; userObject, the user object to be added or
+updated; and item, the name of the item to be added to the user’s orders.
+
+findIndex method is used to find the index of the user in the users array whose name matches the name property of
+userObject. If no match is found, existingUserIndex will be -1.
+
+If the user doesn’t exist (i.e., existingUserIndex is -1), a new user object is created using the spread operator ({
+...userObject }). This new user object includes the orders property with an initial order. The new user is then pushed
+to the users array.
+
+If the user already exists (i.e., existingUserIndex is not -1), the existing user object is retrieved from the users
+array.
+
+If the existing user doesn’t have an orders property (or it’s null or undefined), the orders property is initialized
+with an array containing the initial order.
+
+If the existing user already has an orders array, a new order is added to the end of the existing orders. The order ID
+is incremented based on the current number of orders.
+
+Finally, the updated users array is returned, whether a new user was added or an existing user’s orders were updated.
+
+This code ensures that users are either created if they don’t exist or have new orders added to their existing orders if
+they do exist in the users array.
+*/
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <script defer>
+        let users = [{
+            name: "Rajneesh",
+            age: 34,
+            address: {
+                local: "22 Alaknanda",
+                city: "Dehradun",
+                state: "UK",
+            },
+            orders: [{
+                id: 1,
+                name: "GOT Book Series"
+            }],
+        },
+        {
+            name: "Bhavesh",
+            age: 37,
+            address: {
+                local: "48 DT Row",
+                city: "Hyderabad",
+                state: "AP",
+            },
+        },
+        {
+            name: "Jasbir",
+            age: 38,
+            address: {
+                local: "196 Lama Bhavan",
+                city: "Gangtok",
+                state: "Sikkim",
+            },
+            orders: [{
+                id: 1,
+                name: "Chair"
+            },
+            {
+                id: 2,
+                name: "PS5"
+            },
+            ],
+        },
+        ];
+    </script>
+    <!-- Write your code solution here, inside the updateUsers function -->
+    <!-- WARNING:
+        Don't make any changes outside the given function. (would fail test cases)
+        Write the required code and return the correct answer. -->
+    <script id='solution'>
+        function updateUsers(users, userObject, item) {
+            //write your code here
+            const existingUserIndex = users.findIndex((user) => user.name === userObject.name);
+            if (existingUserIndex == -1) {
+                const newUser = { ...userObject, orders: [{ id: 1, name: item }] };
+                users.push(newUser);
+            }
+            else {
+                // If the user already exists, update their orders.
+                const existingUser = users[existingUserIndex];
+
+                if (!existingUser.orders) {
+                    // If the user doesn't have orders yet, initialize their orders array.
+                    existingUser.orders = [{ id: 1, name: item }];
+                } else {
+                    // If the user already has orders, add a new order to their orders array.
+                    const orderCount = existingUser.orders.length;
+                    existingUser.orders.push({ id: orderCount + 1, name: item });
+                }
+            }
+            // Return the updated users array.
+            return users;
+        }
+    </script>
+</body>
+
+</html>

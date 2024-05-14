@@ -379,3 +379,18 @@ class Rectangle {
     a.area() // Should give 6
 
 */
+
+/*
+delete a linked list
+
+*/
+function deleteNode(listhead, x){
+    let temp = listhead;
+    while(temp.data != x){
+        temp = temp.next;
+    }
+    temp.data = temp.next.data;
+    temp.next = temp.next.next;
+    return listhead;
+}
+deleteNode(12, 3);
