@@ -5,8 +5,8 @@ import { BrowserRouter } from 'react-router-dom';
 // import HandleAllTodos from "./components/Todo/HandleAllTodos";
 // import Routing from "./components/Routes/Routing.jsx";
 // import Page from "./components/useEffect/Page.jsx";
-import GetData from "./components/useEffect/getUserData/GetData";
-
+// import GetData from "./components/useEffect/getUserData/GetData";
+import QuickUpdateIssue from "./components/Imdb2/setCount"
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +16,8 @@ function App() {
       {/* <HandleAllTodos /> */}
       {/* <Routing /> */}
       {/* <Page /> */}
-      <GetData />
+      {/* <GetData /> */}
+      <QuickUpdateIssue />
     </div>
     </BrowserRouter>
   );

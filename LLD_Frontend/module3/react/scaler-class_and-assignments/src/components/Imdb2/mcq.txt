@@ -1,0 +1,85 @@
+1.What is the purpose of passing an empty array as the second argument to the useEffect hook 
+in React?
+
+Options:
+It specifies the values that the hook depends on, and the hook will only be executed if one of these values changes
+It specifies the values that the hook depends on, and the hook will be executed every time the component renders
+It specifies that the hook does not have any dependencies, and the hook will only be executed once
+It specifies that the hook does not have any dependencies, and the hook will be executed every time the component renders
+
+Ans:
+It specifies that the hook does not have any dependencies, and the hook will only be executed once
+
+
+2.
+What will be the function of the below code?
+
+import React, { useEffect } from 'react';
+
+const DataFetcher = () => {
+  useEffect(() => {
+    fetch('https://api.example.com/data')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
+
+  return <div>Data Fetcher</div>;
+};
+
+Options:
+The component fetches data from an API and logs it to the console.
+The component renders a loading spinner until the data is fetched.
+The component renders a form for entering data and sends it to the server.
+The component renders a list of fetched data items.
+
+Ans:
+The component fetches data from an API and logs it to the console.
+
+3.Consider a React component that displays a count and has an “Increment” button.
+ You observe that clicking the “Increment” button rapidly multiple times sometimes results in a 
+ lower-than-expected count. What could be causing this issue?
+
+ import React, { useState } from 'react';
+
+function QuickUpdateIssue() {
+  const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    // Simple useState call
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <h1>Quick Update Issue</h1>
+      <p>Count: {count}</p>
+      <button onClick={incrementCount}>Increment</button>
+    </div>
+  );
+}
+
+export default QuickUpdateIssue;
+
+Options:
+The useState hook is not properly imported in the component.
+React’s rendering is not efficient for fast updates.
+The setCount function is being called directly with the current count.
+
+Ans:
+The setCount function is being called directly with the current count.
+
+4.In React Router, how do you define routes using the component?
+
+Options:
+<Routes path="/about" component={About} />
+<Routes><Route path="/about" element={<About />} /></Routes>
+<Route path="/about" component={About} />
+<Route path="/about"><About /></Route>
+
+Ans:
+<Routes><Route path="/about" element={<About />} /></Routes>
+
+
+

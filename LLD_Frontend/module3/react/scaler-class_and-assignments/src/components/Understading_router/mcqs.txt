@@ -1,0 +1,35 @@
+1. What is the benefit of using React Router?
+
+Options:
+Allows for the creation of clear and readable routes
+Improves the user experience of your app by simplifying site navigation
+Allows for the use of multiple views in React apps
+All of the above
+
+Ans:
+All of the above
+
+2.In React Router, how do you define routes using the component?
+
+Options:
+<Routes path="/about" component={About} />
+<Routes><Route path="/about" element={<About />} /></Routes>
+<Route path="/about" component={About} />
+<Route path="/about"><About /></Route>
+
+Ans:
+<Routes><Route path="/about" element={<About />} /></Routes>
+
+3.How can the React Router library be leveraged to implement filtering functionality in different 
+views of a React application?
+
+Options:
+React Router is not suitable for filtering and should be avoided.
+By dynamically generating routes based on filter criteria and rendering appropriate components.
+By directly modifying the route URL when filters change and relying on browser history.
+React Router cannot handle dynamic route changes for filtering.
+
+Ans:
+By dynamically generating routes based on filter criteria and rendering appropriate components.
+
+
