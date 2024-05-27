@@ -222,6 +222,7 @@ Some Error
 
 Ans:
 53 Steve 55 undefined
+
 */
 const capThree = {
     name: "Steve",
@@ -256,6 +257,29 @@ Hi from Steve Hi from Steve
 
 Ans:
 Hi from undefined Hi from undefined
+
+TA explanation:
+You define an object called cap with a name property set to "Steve" and a sayHi method as an arrow 
+function.When you call cap.sayHi();, it triggers the sayHi method. However, arrow functions capture the 
+this value from their surrounding context. In this case, the surrounding context is the global scope,
+ where there is no name property. So, it logs "hi from undefined."
+
+sayHi is inside cap object and it will take the context from cap right.
+
+const cap= {
+name: "Steve",
+sayHi: function(){
+console.log(`53 ${this.name}`);
+const iAmInner = () => {
+console.log(`55 ${this.name}`);
+}
+iAmInner();
+}
+}
+cap.sayHi();
+
+In this case how is iAmInner able to capture context of cap object.
+sayHi belongs to cap object, surrounding context means outside of cap i.e. global
 */
 const capFour = {
     name: "Steve",
