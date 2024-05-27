@@ -6,7 +6,8 @@ import { BrowserRouter } from 'react-router-dom';
 // import Routing from "./components/Routes/Routing.jsx";
 // import Page from "./components/useEffect/Page.jsx";
 // import GetData from "./components/useEffect/getUserData/GetData";
-import QuickUpdateIssue from "./components/Imdb2/setCount"
+import ThemeManager from "./components/ContextAPI/Themes/ThemeManager";
+// import QuickUpdateIssue from "./components/Imdb2/setCount"
 function App() {
   return (
     <BrowserRouter>
@@ -17,7 +18,8 @@ function App() {
       {/* <Routing /> */}
       {/* <Page /> */}
       {/* <GetData /> */}
-      <QuickUpdateIssue />
+      {/* <QuickUpdateIssue /> */}
+      <ThemeManager />
     </div>
     </BrowserRouter>
   );
