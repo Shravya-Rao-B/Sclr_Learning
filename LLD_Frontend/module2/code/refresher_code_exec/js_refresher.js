@@ -67,17 +67,46 @@ console.log(a);
 
 /*
 3.
-Find output of the following:
-function real(){
-    console.log("I am real Always run me");
-}
-function real(){
-    console.log("No I am real one");
-}
-real();
-function real(){
-    console.log("You Both are wasted");
-}
+
+Guess the Output
+
+Options:
+Error
+No I am real one
+You both are wasted
+I am real . Always run me
+
+Ans:
+You both are wasted
+
+TA Explanation:
+Dry run-
+
+1. Function Declarations:
+
+- The first `real()` function declaration is encountered and stored in the global execution context.
+
+- The second `real()` function declaration is encountered, which replaces the first `real()` function in the global execution context.
+
+- The third `real()` function declaration is encountered, replacing the second `real()` function.
+
+2. Function Call:
+
+- The `real()` function is called.
+
+3. Execution:
+
+- The JavaScript engine looks for the `real()` function in the global execution context.
+
+- It finds the third `real()` function declaration.
+
+- The code inside this third `real()` function is executed, which logs "You both are wasted".
+
+So, the reason why "You both are wasted" is logged is because when the `real()` 
+function is called, the JavaScript engine looks for the most recent definition of `real()` in the global 
+execution context, which is the third function declaration. It doesn't matter that the second function 
+definition was not called; it's the last definition that determines the behavior when the function is 
+invoked.
 
 */
 function real(){
@@ -157,7 +186,7 @@ line number 2 10 line number 4 undefined line number 7 21 line number 11 31 line
 // var a = 10;
 console.log("line number 2", a);
 function fn(){
-    console.log("line number 4", a);
+    console.log("line number 4", a); //if we didn't have var a = 20 in line 190, this would print 10 from parent scope.
     var a = 20;
     a++;
     console.log("line number 7", a);
@@ -170,6 +199,35 @@ console.log("line number 13", a);
 }
 fn();
 console.log("line number 16", a);
+/*
+6.
+Find the output of the following:
+
+Options:
+Error
+This only works if and only if only works if and only if
+This only works if and only if only works if
+This only works if and only if This only works if and only if
+
+Ans:
+This only works if and only if only works if and only if
+
+*/
+let q = "This only works if and only if"; // "q = This only works if and only if" Initializes a string variable q.
+let r = q.slice(q.indexOf("only")); // r = only works if and only if
+let t = r.lastIndexOf("only");
+// console.log('t',t); //t = 18, did not consider white spaces
+// console.log('r[t]',r[t]); //r[t] is r[18] which is letter 'i' last word 'if'
+r[t]= "i"; 
+/*
+r[t] = "i";: Attempts to replace the character at index c in string b with the character "i". 
+However, this line won't work because strings in JavaScript are immutable, meaning you cannot directly 
+change a character at a specific index like this.
+*/
+console.log(q);
+console.log(r);
+// console.log(q); console.log(r);: Prints the original string q and the modified string r.
+
 /*
 7.
 Complete the function ConvertToBinary(dec), which takes a decimal number and returns its binary.

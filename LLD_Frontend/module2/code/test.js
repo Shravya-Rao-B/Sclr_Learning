@@ -64,10 +64,10 @@ console.log("After");
 // while(s){
 // console.log('still running')
 // }
-let futureTime = Date.now() + 5000;
-while(Date.now()<futureTime){
-    console.log("I am running",Date.now());
-}
+// let futureTime = Date.now() + 5000;
+// while(Date.now()<futureTime){
+//     console.log("I am running",Date.now());
+// }
 
 // async function getData(){
 //     return 10;
@@ -75,3 +75,21 @@ while(Date.now()<futureTime){
 // let a = await getData();
 // console.log(a);
 
+
+let q = "This only works if and only if"; // "q = This only works if and only if"
+let r = q.slice(q.indexOf("only")); // r = only works if and only if
+let t = r.lastIndexOf("only");
+// console.log('t',t); //t = 18, did not consider white spaces
+// console.log('r[t]',r[t]); //r[t] is r[18] which is letter 'i' last word 'if'
+r[t]= "g"; // This doesn't work
+console.log(q);
+console.log(r);
+
+var a = 10;
+console.log("a before function", a);
+function fn(){
+    console.log("a inside function", a)
+    var a = 20;
+}
+fn();
+console.log("a after function",a);
