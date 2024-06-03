@@ -1,0 +1,75 @@
+<!--
+2.Implement a program that utilises call() method in Javascript to make the provided function work on different objects.
+
+Explanation:
+1. You have a main function that takes in 2 parameters:
+1.1. obj -> A object with different set of values.
+1.2. func -> A simple function that utilises the values from the object provided and returns a string.
+
+2. You need to write a program using call() method, which makes the provided function 'func' use the object 'obj' to generate a string.
+3. You then need to catch the returned string in the 'resultString' variable, which is then returned from the main function.
+
+Note:
+The value of obj and func will be totally different for all the test cases, so there is no scope of hard coding the problem.
+
+Sample test case:
+
+Input:
+let obj = {
+name: "bucky",
+team: "Team Cap",
+};
+let func = function () {
+return "Hello avengers this is " + this.name + " from " + this.team + " lets fight !";
+};
+
+console.log(main(obj, func))
+
+Output:
+Hello avengers this is bucky from Team Cap lets fight !
+
+Hints:
+Utilize call() method: Use the call() method on the func function to provide the obj object as the context (this).
+2. Return the result: Return the result of the func.call(obj) expression from the main function.
+
+Here’s the solution approach for the given problem:
+
+1. Utilize call() method: Inside the main function:
+- Use the call() method on the func function.
+- Pass the obj object as an argument to the call() method to provide it as the context (this) for the function.
+
+2. Return the result: Return the result of the func.call(obj) expression from the main function.
+- This will ensure that the func function uses the values from the obj object and generates the desired string.
+- The resulting string will be returned as the output of the main function.
+
+By following these steps, you should be able to utilize the call() method to make the provided func function work on different objects (obj) and generate the expected string.
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <!-- Write your code solution here, inside the main function -->
+    <!-- WARNING:
+        Don't make any changes outside the given function. (would fail test cases)
+        Write the required code and return the correct answer. -->
+    <script id='solution' defer>
+        function main(obj, func) {
+            //write your code here ===============================================
+            let resultString = func.call(obj)
+            return resultString;
+        }
+    </script>
+</body>
+
+</html>
