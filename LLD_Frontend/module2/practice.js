@@ -44,5 +44,30 @@ Function.prototype.myApply = function(obj, args){
 cap.printNames.myApply(cap1,["Anup","Shravya","A","B","Z"]);
 cap.printNames.apply(cap1,["Anup","Shravya","A","B","Z"]);
 
+function flatArray(arr){
+    let newArr = [];
+    for(let item of arr){
+        if(Array.isArray(item)){
+            let falttenedArray = (flatArray(item));
+            newArr.push(...falttenedArray); //append to array after spreading the values returned from flattendarray
+        }
+        else {
+            newArr.push(item)
+        }
+    }
+    return newArr;
+}
+console.log(flatArray([1,2,[[[3,5]]],[7,10]]));
 
 
+var func = function (){
+    console.log("Hi");
+}
+var func = function (){
+    console.log("Hello");
+}
+var func = function (){
+    console.log("How are you");
+}
+
+console.log(func());
