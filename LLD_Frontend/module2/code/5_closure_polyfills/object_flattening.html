@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>JS</title>
+</head>
+
+<body>
+    <!-- Write your code solution here, inside the flattenObject function -->
+    <!-- WARNING:
+        Don't make any changes outside the given function. (would fail test cases)
+        Write the required code and return the correct answer. -->
+    <script id='solution' defer>
+        function flattenObject(obj) {
+            // Write your solution here ========================
+    let  flattenedObj= {};
+    let nestedFlattenedObj = {};
+    for(let key in obj){
+        if(typeof obj[key] === "object" && obj[key]!= null){
+            nestedFlattenedObj = flattenObject(obj[key]);
+        }
+        else {
+            flattenedObj[key] = obj[key];
+        }
+    for(let nestedKey in nestedFlattenedObj){
+                flattenedObj[`${key}.${nestedKey}`] = nestedFlattenedObj[nestedKey];
+        }
+
+    }
+    return flattenedObj;
+        }
+    </script>
+</body>
+
+</html>

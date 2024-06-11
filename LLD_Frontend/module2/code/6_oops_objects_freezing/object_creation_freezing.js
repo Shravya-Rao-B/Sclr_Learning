@@ -1,4 +1,79 @@
 /*
+1.
+
+Write a function that checks if a given value is an instance of a given class or superclass. For this problem, an object is considered an instance of a given class if that object has access to that class's methods.
+
+There are no constraints on the data types that can be passed to the function. For example, the value or the class could be undefined.
+
+Example 1:
+
+Input: func = () => checkIfInstanceOf(new Date(), Date)
+Output: true
+Explanation: The object returned by the Date constructor is, by definition, an instance of Date.
+
+Example 2:
+
+Input: func = () => { class Animal {}; class Dog extends Animal {}; return checkIfInstanceOf(new Dog(), Animal); }
+Output: true
+Explanation:
+class Animal {};
+class Dog extends Animal {};
+checkIfInstance(new Dog(), Animal); // true
+
+Dog is a subclass of Animal. Therefore, a Dog object is an instance of both Dog and Animal.
+
+Example 3:
+
+Input: func = () => checkIfInstanceOf(Date, Date)
+Output: false
+Explanation: A date constructor cannot logically be an instance of itself.
+
+Example 4:
+
+Input: func = () => checkIfInstanceOf(5, Number)
+Output: true
+Explanation: 5 is a Number. Note that the "instanceof" keyword would return false. However, it is still considered an instance of Number because it accesses the Number methods. For example "toFixed()".
+
+Solution Approach:
+
+The given problem can be solved by using the instanceof operator in a recursive manner.
+Start with the given object and check if it is an instance of the class using the instanceof operator. If it is, return true.
+If the object is not an instance of the class, get the prototype of the object using Object.getPrototypeOf(obj).
+Repeat the process recursively by checking if the prototype object is an instance of the class. If it is, return true.
+Keep iterating up the prototype chain until either the object is found to be an instance of the class or the prototype chain ends (i.e., the prototype is null).
+If none of the prototypes in the chain are instances of the class, return false.
+
+*/
+//Scaler solution
+function checkIfInstanceOf(obj, classFunction) {
+    while(obj!=null)
+    {
+        if(obj.constructor === classFunction)
+        {
+            console.log("obj.constructor", obj.constructor);
+            return true;
+        }
+
+        obj = Object.getPrototypeOf(obj);
+
+    }
+    return false;
+};
+class Animal {};
+class Dog extends Animal {};
+console.log('instace of :',checkIfInstanceOf(new Dog(), Animal));
+console.log("instance of number", checkIfInstanceOf(5, Number));
+
+//One liner solution from Scaler discussions
+
+function checkIfInstanceOfFunc(obj, classFunction) {
+    // Write the solution here ==================================
+return !(!obj || !(obj instanceof classFunction))
+}
+/*
+2.
+*/
+/*
 3.
 WHat is the output
 

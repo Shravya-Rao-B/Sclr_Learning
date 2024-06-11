@@ -60,6 +60,54 @@ console.log('flatten Object',flattenObject({
     },
   }));
 /*
+2.
+You are tasked with creating a function fn that allows for function chaining and keeps track of the number of function calls made. Each time the function is called, it returns another function, and the count of function calls is incremented. The function chain can be terminated by passing a specific value.
+
+Constraints:
+The function chain can have an arbitrary number of function calls.
+The function chain is terminated by passing the value 0 to the innermost function.
+Examples:
+Example 1:
+fn()()()()(0)
+Output:
+4
+Example 2:
+fn()()()(0)
+Output:
+3
+Example 3:
+fn()()()()()(0)
+Output:
+5
+
+Solution Approach:
+
+Start by defining the function fn. Inside fn, initialize a count variable with an initial value of 1.
+Create an inner function, let's call it innerFn, within fn. This inner function will be returned by fn.
+Implement innerFn such that it checks if the argument passed to it is 0. If it is, return the current count value.
+If the argument is not 0, increment the count variable by 1 and return innerFn itself.
+Make sure to update the count variable within the scope of fn and maintain its value across multiple calls to innerFn.
+Return innerFn from fn.
+Test the function by calling fn and chaining multiple function calls. Pass 0 as the argument to the innermost function to terminate the chain and obtain the count value.
+
+*/
+function fn() {
+  // Write your solution here ========================
+  let count = 1; //Because if its called once count should be incremented from 0 to 1.
+  function innerFn(arg){ //To handle the next function call create a closure.
+  if(arg == 0){  //If the argument passed is 0 stop the chain and return
+  return count  //stop the chain and return exsisting value of count
+  }
+  else {
+  count++     // Increment oherwise
+  return innerFn; // return this inner function to be used for all the consecutive calls
+  }
+  }
+  return innerFn; // This for the first function call
+}
+
+console.log(fn()()()()(0));
+/*
 3
 
 Options:
@@ -125,9 +173,25 @@ f(3)(4);
 Output:
 12
 12
+
+Start by defining the function f with two parameters, x and y.
+Check the number of arguments passed to f using the arguments object or the length property.
+If arguments.length is equal to 1, return a new function that takes the second argument and computes the product.
+Inside the new function, multiply the captured x value (from the outer scope) with the second argument (y) and return the result.
+If arguments.length is equal to 2, directly calculate the product of x and y and return the result.
+Test the function using both function call patterns, such as f(3, 4) and f(5)(2), and verify that the correct products are returned.
+Remember to handle both function call patterns correctly and capture the necessary values in the inner function for the second pattern.
 */
-function f(y,x){
-    
+function f(y, x) {
+  // Write your solution here ========================
+  if(!x){
+  return function innerFunc(num){
+  return (y*num)
+  }
+  }
+  else {
+  return (y * x)
+  }
 }
 /*
 6.
