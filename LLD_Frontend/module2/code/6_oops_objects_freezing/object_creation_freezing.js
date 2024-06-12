@@ -72,7 +72,80 @@ return !(!obj || !(obj instanceof classFunction))
 }
 /*
 2.
+
+You are tasked with creating a polyfill for the Object.create method in JavaScript. The Object.create method is a built-in function in JavaScript that allows you to create a new object with a specified prototype object.
+
+Your goal is to create a function called myObjectCreate that emulates the functionality of Object.create. The myObjectCreate function should accept a single argument, proto, which represents the prototype object for the new object to be created.
+
+However, there are a few requirements and constraints for your implementation:
+
+If the proto argument is null, undefined, or not an object, your function should throw an Error. This is to ensure that the proto argument is a valid object to be used as the prototype.
+
+Your implementation should create a new object that inherits from the proto object. This means that any properties or methods defined on the proto object should be accessible by the newly created object.
+
+The newly created object should not have any own properties initially. Any properties or methods accessed on the new object that are not defined directly on the object should be looked up in the prototype chain.
+
+Sample Test Case:
+To demonstrate the usage of your myObjectCreate function, consider the following example:
+
+// Step 1: Define a prototype object
+const personPrototype = {
+  greet: function() {
+    console.log("Hello, my name is " + this.name + ".");
+  }
+};
+
+// Step 2: Call myObjectCreate and pass the prototype object
+const person = myObjectCreate(personPrototype);
+
+// Step 3: Assign the returned object to a variable
+
+// Step 4: Use the newly created object
+person.name = "John";
+person.greet(); // Output: Hello, my name is John.
+In this example, we first define a personPrototype object that contains a greet method. We then use the myObjectCreate function to create a new object person based on the personPrototype. After assigning a name property to the person object, we call the greet method on the person object, which logs a greeting message with the assigned name.
+
+Your myObjectCreate function should be able to replicate this behavior, allowing the user to create new objects with a specified prototype and access properties and methods defined on the prototype object.
+
+Solution Approach:
+The goal is to replicate the functionality of the Object.create method, which allows creating a new object with a specified prototype object.
+The myObjectCreate function should throw an error if the proto argument is null, undefined, or not an object.
+To achieve inheritance, a new function f is created, and its prototype is set to the proto object.
+The function f acts as a constructor function, and when called with the new keyword, it returns a new instance that inherits from the proto object.
+The returned instance from f is the newly created object that emulates the behavior of Object.create.
+Test the implementation by creating a prototype object and using myObjectCreate to create a new object based on that prototype. Verify that the properties and methods of the prototype object are accessible on the newly created object.
+By following these hints and the solution approach, you should be able to implement the myObjectCreate function, which acts as a polyfill for the Object.create method.
 */
+let p = {
+    name: "Shravya",
+    address:{
+        city: "Bangalore",
+        state: "Karnataka"
+    },
+    sayHi: function(){
+        console.log(`Hi from ${this.name}`);
+    }
+}
+// let person = Object.create(p);
+// person.age = 29;
+// person.color =  "red";
+// let goodPerson = Object.create(person);
+// console.log('person prototype',Object.getPrototypeOf(goodPerson));
+
+function myObjectCreate(proto){
+    if(!proto || proto=== "undefined" || typeof proto !=="object"){
+        throw new Error("Invalid argument");
+    }
+    function f(){}
+    f.prototype = proto;
+    return new f();
+}
+
+const newPerson = myObjectCreate(p);
+console.log('new person prototype',Object.getPrototypeOf(newPerson));
+newPerson.name = "John";
+newPerson.sayHi();
+
 /*
 3.
 WHat is the output
@@ -142,6 +215,75 @@ Error
 // }
 // let rabbit2 = new Rabbit('White Rabbit');
 // console.log(rabbit2.name);
+/*
+6.
+You are tasked with creating a polyfill for the Object.seal method in JavaScript. The Object.seal method is a built-in function that seals an object, preventing new properties from being added and marking all existing properties as non-configurable.
+
+Your goal is to create a function called sealPolyfill that emulates the functionality of Object.seal. The sealPolyfill function should be added to the Object.prototype object to make it accessible on all objects.
+
+However, there are a few requirements and constraints for your implementation:
+
+If the Object.seal method is already defined, your polyfill should not override it. You should only provide the polyfill if it doesn't exist.
+
+The polyfill implementation should check if the value on which sealPolyfill is called is a valid object. If it's not an object or is null, a TypeError should be thrown.
+
+The polyfill should iterate over all the properties of the object and mark them as non-configurable using Object.defineProperty. This prevents the properties from being deleted or having their attributes modified.
+
+After sealing all existing properties, the polyfill should call Object.preventExtensions to prevent any new properties from being added to the object. This ensures that the object becomes a sealed object.
+
+The sealed object should be returned by the polyfill function.
+
+Example:
+To demonstrate the usage of your sealPolyfill function, consider the following example:
+
+const obj = {
+  name: 'John',
+  age: 30
+};
+
+console.log(Object.isSealed(obj)); // Output: false
+
+obj.sealPolyfill();
+
+console.log(Object.isSealed(obj)); // Output: true
+
+obj.name = 'Jane'; // Existing property can still be modified
+console.log(obj.name); // Output: Jane
+
+obj.gender = 'Female'; // Attempt to add a new property
+console.log(obj.gender); // Output: undefined (property was not added)
+
+delete obj.age; // Attempt to delete an existing property
+console.log(obj.age); // Output: 30 (property was not deleted)
+In this example, we start with an object obj with two properties: name and age. Initially, the object is not sealed, as confirmed by Object.isSealed(obj) returning false.
+
+We then call the sealPolyfill function on the obj object, which seals the object using the polyfill implementation. After sealing, Object.isSealed(obj) returns true.
+
+Once sealed, we can still modify the value of existing properties (obj.name = 'Jane'), but we cannot add new properties (obj.gender = 'Female') as the property addition is prevented. Similarly, attempting to delete an existing property (delete obj.age) does not work, as the property deletion is prevented.
+
+Your sealPolyfill function should be able to replicate this behavior, allowing users to seal objects and prevent the addition of new properties while preserving the existing ones.
+
+Hint:
+Understand the purpose of the Object.seal method and its functionality. Research its usage and behavior in JavaScript.
+Start by checking if the Object.seal method already exists on the Object.prototype object. You can do this by checking if Object.prototype.seal is undefined.
+Define the sealPolyfill function and add it to the Object.prototype object. This will make the function accessible on all objects.
+Within the sealPolyfill function, check if this is a valid object by ensuring it is of type "object" and not null. If it fails this check, throw a TypeError using the throw keyword.
+Iterate over all the properties of the object using a for...in loop.
+For each property, use Object.defineProperty to define the property with configurable: false. This will mark the property as non-configurable, preventing it from being deleted or having its attributes modified.
+After sealing all existing properties, call Object.preventExtensions(this) to prevent any new properties from being added to the object. This ensures that the object becomes sealed.
+Return this to maintain the chaining behavior often associated with method calls in JavaScript.
+
+Solution Approach:
+The goal is to replicate the functionality of the Object.seal method using a polyfill called sealPolyfill.
+Check if the Object.seal method already exists on the Object.prototype object to avoid overriding it.
+Define the sealPolyfill function and add it to the Object.prototype object to make it accessible on all objects.
+Within the sealPolyfill function, check if this is a valid object by ensuring it is of type "object" and not null. If it fails this check, throw a TypeError.
+Iterate over all properties of the object using a for...in loop.
+For each property, use Object.defineProperty to define the property with configurable: false. This makes the property non-configurable, preventing deletion or modification.
+After sealing all existing properties, call Object.preventExtensions(this) to prevent any new properties from being added to the object.
+Return this to maintain the chaining behavior.
+Test the implementation by creating an object and calling sealPolyfill on it. Verify that existing properties cannot be deleted or modified, and new properties cannot be added.
+*/
 
 /*
 7.

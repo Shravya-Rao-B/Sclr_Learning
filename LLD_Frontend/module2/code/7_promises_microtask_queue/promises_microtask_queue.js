@@ -1,3 +1,5 @@
+let fs = require("fs");
+const { callbackify } = require("util");
 /*
 1.
 What will be the output
@@ -239,3 +241,122 @@ all of the above
 Ans:
 all of the above
 */
+
+function mySetInterval(func, interval){
+  while(true){
+  let int = 0;
+  while(int< interval){
+    int = int+1000;
+  }
+  if(int >= interval){
+    func();
+    int = 0;
+  }
+}
+}
+//callback hell explanation
+
+function cb1(){
+  fs.readFile("./f1.txt",(err,data)=> {
+    if(err){
+      console.log("err at cb1",err);
+    }
+    else{
+      console.log('f1', data.toLocaleString());
+      fs.readFile("./f2.txt",(err,data)=> {
+        if(err){
+          console.log("err at cb2",err)
+        }
+        else{
+          console.log("f2:", data.toLocaleString()); 
+          fs.readFile("./f3.txt",(err,data)=> {
+            if(err){
+              console.log("err at cb3", err)
+            }
+            else {
+              console.log("f3:", data.toLocaleString());
+            }
+        })
+    }
+    })
+}
+  })
+}
+
+// cb1();
+
+//One way to prevent callback chaining like thing
+function calBacks(){
+  fs.readFile("./f1.txt",f1cb)
+}
+
+function f1cb(err, data){
+    if(err){
+      console.log("err at cb1",err);
+    }
+    else if(data){
+      console.log('f1', data.toLocaleString());
+      fs.readFile("./f2.txt",f2cb)
+    }
+}
+
+function f2cb(err, data){ 
+  if(err){
+  console.log("err at cb2",err);
+}
+else if(data){
+  console.log('f2', data.toLocaleString());
+  fs.readFile("./f3.txt",f3cb)
+}
+}
+
+function f3cb(err, data){
+  if(err){
+    console.log("err at cb3", err);
+  }
+  else if(data){
+    console.log('f3', data.toLocaleString());
+  }
+}
+
+// calBacks();
+
+//We are calling the similar function multiple times. WHich means there is a recursive solution.
+
+let files = ["f3.txt", "f2.txt", "f1.txt"];
+function readFiles(){
+  if(files.length == 0){
+    return;
+  }
+  else {
+    let currFile = files.pop();
+    fs.readFile(currFile,(err, data) => {
+      if(err){
+        console.log(`err reading file:, ${currFile} and error is ${err}`);
+      }
+      else {
+        console.log(`Data of ${currFile}: ${data.toLocaleString()}`);
+        readFiles();
+      }
+    })
+  }
+}
+// readFiles();
+
+//Trying the same with prmosie
+function cbsToPromise()
+{
+fs.promises.readFile("./f1.txt")
+.then((data) => {
+  console.log("f1", data.toLocaleString());
+return fs.promises.readFile("./f2.txt");
+}).then((data) => {
+  console.log("f2", data.toLocaleString());
+return fs.promises.readFile("./f3.txt");
+}).then((data) => {
+  console.log("f3", data.toLocaleString());
+}).catch(err => {
+  console.log("err", err);
+});
+}
+cbsToPromise();
