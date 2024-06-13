@@ -188,6 +188,29 @@ const promiseAll = async () => {
 promiseAll().then(console.log).catch(console.log);
 
 /*
+5.
+You are tasked with creating a promisify function that can turn any given function into a promisified version of itself. The objective is to convert a function that uses traditional callback-based asynchronous programming into a function that returns a promise.
+
+The promisify function should accept a single argument fn, which is the function to be promisified. The promisified function should have the same behavior as the original function but should return a promise instead of using a callback.
+
+The function fn to be promisified will always have a callback as its last argument. The callback function will have the following signature:
+
+function(result) {}
+The promisify function should return a new function that wraps the original function fn. Once you have implemented promisify, you should apply it to the provided function exampleFn and assign the resulting promisified function to a variable called promisified. The promisified function should be invoked with the appropriate arguments and then chained with .then() calls to handle the resolved value of the promise. This is how the function should work:
+
+Example:
+function exampleFn(a, b, cb) {
+    cb(a + b);
+}
+
+const promisified = promisify(exampleFn);
+promisified(5, 15).then(res => console.log(res)); 
+
+Output: 20
+
+
+*/
+/*
 6.
 Guess the output
 
@@ -241,6 +264,78 @@ all of the above
 Ans:
 all of the above
 */
+
+/*
+9.
+Complete the function twoSeries(file1, file2, ansArray), which takes in two file names as file1 and file2 and ansArray
+
+Write the code such that:
+
+Both the files are serially read using the fetchByPromise(fileName)
+Add the content of both files in the ansArray.
+At the end of the contents, the ansArray should hold string "All files have been read"
+Example:
+Input:
+let ansArray = [];
+twoSeries('FILE 1', 'FILE 2', ansArray)';
+
+Output:
+ansArray = ['content : FILE 1', 'content : FILE 2', 'All files have been read']
+
+Hint:
+1. The function twoSeries takes three parameters: file1, file2, and ansArray.
+2. It is assumed that there is a function called fetchByPromise that returns a promise for fetching data from a file.
+3. Inside the function, a promise chain is created to fetch data from file1 and file2 sequentially.
+4. The result of the first fetch is pushed into the ansArray using the .push() method.
+5. The second fetch is performed within the .then() block of the first fetch’s promise.
+6. The result of the second fetch is also pushed into the ansArray.
+7. Another .then() block is used to push the message “All files have been read” into the ansArray.
+8. The code assumes that the ansArray is an array provided as an argument, where the results will be stored.
+
+Solution Appraoch:
+1. Understanding the Inputs: The twoSeries function takes three parameters: file1, file2, and ansArray. file1 and file2 represent the names or paths of the files to be fetched, and ansArray is an array provided as an argument to store the results.
+
+2. Fetching Data with Promises: Inside the twoSeries function, a promise chain is created to fetch data from file1 and file2 sequentially.
+
+3. Fetching file1: The promise chain starts by calling the fetchByPromise function, assuming it is a function that returns a promise for fetching data from a file. The fetched result is passed to the first .then() method.
+
+4. Pushing file1 Result to ansArray: In the first .then() block, the fetched result (res) is pushed into the ansArray using the .push() method. This ensures that the result of file1 is stored in the array.
+
+5. Fetching file2: Within the first .then() block, after file1 is processed, another call to fetchByPromise is made to fetch data from file2. The fetched result is passed to the second .then() method.
+
+6. Pushing file2 Result to ansArray: In the second .then() block, the fetched result (res) from file2 is pushed into the ansArray using the .push() method. This ensures that the result of file2 is stored in the array.
+
+7. Pushing Completion Message: After both fetch operations are completed, a third .then() block is used. Inside this block, the message “All files have been read” is pushed into the ansArray using the .push() method. This indicates that all files have been processed.
+
+8. Completing the Promise Chain: The promise chain is now complete. The function will exit, and the caller can access the ansArray to retrieve the stored results.
+
+By following this solution approach, the twoSeries function fetches data from two files sequentially using promises. The results are stored in the ansArray provided as an argument, ensuring that the results are processed and accessible in the desired order.
+*/
+
+function twoSeries(file1, file2, ansArray) {
+  //write your code here =========================================
+  fetchByPromise(file1)
+  .then((data) => {
+  ansArray.push(data);
+  return fetchByPromise(file2)
+  }).then(data => {
+  ansArray.push(data)
+  ansArray.push("All files have been read");
+  }).catch(err => {
+  console.log(err)
+  })
+  return ansArray;
+  }
+
+//Scaler given function
+  function fetchByPromise(fileName) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(`content : ${fileName}`);
+        }, 100 * Math.random());
+    });
+}
+  console.log("twoSeries",twoSeries("./f1.txt", "./f2.txt", []));
 
 function mySetInterval(func, interval){
   while(true){
@@ -359,4 +454,9 @@ return fs.promises.readFile("./f3.txt");
   console.log("err", err);
 });
 }
-cbsToPromise();
+// cbsToPromise();
+
+
+
+
+

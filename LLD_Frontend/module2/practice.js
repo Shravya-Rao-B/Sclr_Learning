@@ -275,3 +275,4 @@ Array.prototype.myReduce = function(acc,logic){
 
 let arr3 = [1,2,3,4,5];
 console.log("reduce",arr3.myReduce(2,sumOfAll));
+

@@ -64,6 +64,40 @@ After calling mySetInterval, create a new setTimeout function with a callback th
 The endTime parameter specifies the time, in milliseconds, at which the interval execution should stop.
 */
 
+function fetchByCb(fileName, cb) {
+    setTimeout(function () {
+        cb(`content : ${fileName}`);
+    }, 100 * Math.random());
+}
+// function twoSeries(file1, file2, ansArray) {
+//     //write your code here =========================================
+//    fetchByCb(file1,cb1);
+//    function cb1(data){
+//     ansArray.push(data);
+//     console.log("ansarray after file1", ansArray);
+//     fetchByCb(file2, cb2)
+//    }
+//    function cb2(data)
+//    {
+//    ansArray.push(data);
+//    ansArray.push("All files haven been read")
+//    }
+//    return ansArray;
+// }
+console.log("twoSeries",twoSeries("./f1.txt","./f2.txt",[]));
+
+
+function twoSeries(file1, file2, ansArray) {
+    fetchByCb(file1, function(data) {
+        ansArray.push(data);
+        fetchByCb(file2, function(data) {
+            ansArray.push(data);
+            ansArray.push('All files have been read');
+            return ansArray;
+        })
+    });
+    console.log("ansArray",ansArray);
+}
 /*
 2.
 Which component handles the execution of asynchronous code/callbacks
