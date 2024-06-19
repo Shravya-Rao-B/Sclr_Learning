@@ -87,3 +87,54 @@ The spread operator is used to split an array into multiple elements,
 while the rest operator is used to merge multiple elements into an array.
 
 */
+
+//-------------------------------------class code trial---------------------------
+
+const a = (async function() {
+    return await Promise.resolve("Ankit");
+})();
+console.log(a);
+a.then(function(data) {
+    console.log(data);
+})
+
+// async function getdata(){
+//     return 10
+// }
+// c = await getdata();
+// console.log(c); //This will give an error
+
+//Need to use the promise this way instead
+// getdata().then(data => console.log("data",data));
+
+// console.log("before");
+// function cb(){
+//     console.log("callback funciton called");
+// }
+// let timerId = setTimeout(cb, 1000);
+// function canceller(){
+//     console.log("canceller called");
+//     clearTimeout(timerId);
+// }
+// setTimeout(canceller, 2000);
+// console.log("after");
+
+//---------------------- SetInterval
+
+function mySetTimeout(timeout,cb){
+    console.log("mySetTimeout called");
+    let int = 0;
+    while(int < timeout){
+        int = int + 1000;
+    }
+    if(int >= timeout){
+        console.log("timeout reached")
+        cb();
+    }
+}
+
+function sayHi(){
+    return ("Hello from set timeout polyfill")
+}
+
+console.log(mySetTimeout(3000,sayHi));
