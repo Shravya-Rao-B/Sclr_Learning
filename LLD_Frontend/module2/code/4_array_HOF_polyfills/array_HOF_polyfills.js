@@ -48,6 +48,16 @@ function reduce(arr, reducer) {
     }
     return ans;
 }
+
+//Reduce syntax : array.reduce(accumulator, currentValue, index, array)
+function customReduce(callback,initialValue){
+let acc = initialValue === undefined ? this[0] : initialValue;
+for(let i= initialValue === undefined ? 1 :0 ;i<this,length; i++){
+    acc= callback(acc,this[i],i,this)
+}
+return acc;
+}
+Function.prototype.customReduce = customReduce;
 /*
 2.
 

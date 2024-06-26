@@ -62,4 +62,81 @@ for(let q=0; q<S.length.length; q++){
 }
 }
 
-console.log(sumOfEvenIndices([1,2,4]));
+// console.log(sumOfEvenIndices([1,2,4]));
+
+function caseConvert(str){
+    let ans = '';
+    for(let i=0; i<str.length; i++){
+        if(str[i] == str[i].toUpperCase()){
+            ans = ans + str[i].toLowerCase();
+        }
+        else {
+            ans = ans + str[i].toUpperCase();
+        }
+    }
+    return ans;
+}
+
+/*----------------------------------------------------------------*/
+
+console.log('a',a);
+var a = 20;
+real();
+function real(){
+    return "I am 1"
+}
+function real(){
+    return "I am 2"
+}
+function real(){
+return "I am 3"
+}
+
+/*----------------------------------------------------------------*/
+var b = 10;
+console.log("line num 94", b);
+function fn(){
+    var b = 20;
+    console.log("line num 97", b);
+    b++;
+    console.log("line num 99", b);
+if(b){
+    var b = 30;
+    b++;
+    console.log("line num 102", b);
+}
+console.log("line num 105", b);
+}
+fn();
+console.log("line num 107", b);
+
+/*----------------------------------------------------------------*/
+
+var f = 5;
+function fn(){
+     f = 6;
+     console.log(f);
+}
+fn();
+console.log(f);
+
+/*----------------------------------------------------------------*/
+
+function real(){
+    console.log("I am real");
+}
+function real(){
+    console.log("No I am real");
+}
+real();
+function real(){
+    console.log("You both are wasted");
+}
+/*----------------------------------------------------------------*/
+
+let q = "This only works if and only if";
+let r = q.slice(q.indexOf("only"));
+let s = r.lastIndexOf("only");
+r[s]= "i";
+console.log(q);
+console.log(r);

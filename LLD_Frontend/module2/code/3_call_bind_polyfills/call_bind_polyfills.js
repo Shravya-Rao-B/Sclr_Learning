@@ -77,6 +77,62 @@ Ans:
 d) a and b
 */
 
+/*
+5.
+Write a polyfill for the apply method in JavaScript.
+
+You need to complete the function applyPolyfill which takes three inputs:
+1. fn - A function on which apply method needs to be polyfilled.
+2. context - The value of this to be used when calling the function.
+3. args - An array of arguments to be passed to the function.
+
+The function applyPolyfill(fn, context, args), when called, should behave in a similar fashion as the inbuilt Function.prototype.apply() function in JavaScript.
+Refrain from using the inbuilt Function.protoype.apply() function in JS, trivial test case would check for that.
+
+
+Example:
+
+function greet(country) {
+
+return 'Hello, ' + this.name + ' from '+ country;
+}
+
+const person = {
+name: 'John',
+};
+
+const result = applyPolyfill(greet, person, ['India']);
+console.log(result);
+
+
+Output:
+Hello, John! from India
+
+Solution Approach:
+
+Start by checking if the fn input is a function using typeof and comparing it to 'function'.
+Set the context to window if it is null or undefined by using a conditional statement (context = context || window;).
+Generate a unique property name using Symbol() to avoid potential conflicts with existing properties on the context object.
+Assign the function fn to the unique property on the context object (context[uniqueProp] = fn;).
+Invoke the function stored in the context object using the spread operator (...) to pass the args as individual arguments (context[uniqueProp](...args)).
+Capture the result of the function call in a variable (const result = context[uniqueProp](...args);).
+Delete the unique property from the context object to clean up after the function call (delete context[uniqueProp];).
+Return the result of the function call (return result;).
+*/
+
+function applyPolyfill(fn, context, args) {
+    // Write your solution here ========================
+ // Generating a unique symbol to avoid naming conflicts with existing properties
+    const fnn = Symbol();
+    // Add the function to the context object with a unique symbol as the property name
+    context[fnn] = fn;
+    // Call the function using the spread operator to pass arguments from the array
+    const result = context[fnn](...args);
+     // Remove the temporary property from the context object
+    delete context[fnn];
+     // Return the result of the function call
+    return result;
+}
 
 /*
 6.

@@ -276,3 +276,35 @@ Array.prototype.myReduce = function(acc,logic){
 let arr3 = [1,2,3,4,5];
 console.log("reduce",arr3.myReduce(2,sumOfAll));
 
+function modifier(a,b){
+  a = 10;
+  b = 20;
+  console.log("a,b inside modifier",a,b);
+}
+let p = [1,2,3];
+let q = [4,5,6];
+modifier(p,q);
+console.log("p,q",p,q);
+
+console.log(getResult());
+function getResult(){
+  return "getResult";
+}
+
+
+class Animal{
+    constructor(name){
+        this.name = name;
+    }
+}
+class Rabbit extends Animal
+{
+    constructor(name){
+        // super(name);
+        this.name = name;
+        this.created = Date.now();
+    }
+}
+let rabbit = new Rabbit('White Rabbit');
+console.log("rabbit name",rabbit.name);
+
