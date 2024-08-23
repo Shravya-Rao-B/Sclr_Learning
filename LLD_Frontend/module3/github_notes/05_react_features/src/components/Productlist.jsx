@@ -1,19 +1,26 @@
-function Productlist(props) {
-  const { prodList } = props;
+import React from 'react'
+
+function ProductList(props) {
+  const { productList } = props;
   return (
     <>
-      {prodList.map((product) => {
-              return (<div key={product.id} className="product">
-                <img src={product.image} alt="" className="product_image" />
-                <div className="product_meta">
-                  <p className="product_title"> {product.title}</p>
-                  <p className="price"> {"price: $" + product.price }</p>
+      {productList == null ? <h4>...Loading</h4> :
+        <>
+          {productList.map((product) => {
+            return (<div className="product">
+              <img src={product.image} alt="" className="product_image" />
+              <div className="product_meta">
+                <p className="product_title"> {product.title}</p>
+                <p className="price"> {"price: $" + product.price}</p>
 
-                </div>
-              </div>);
-            })}
+              </div>
+            </div>);
+          })}
+        </>
+      }
+
     </>
   )
 }
 
-export default Productlist
+export default ProductList

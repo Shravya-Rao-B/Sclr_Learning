@@ -1,19 +1,30 @@
+import React from 'react'
 
 function Categories(props) {
-    const {category, setCurrentCategory} = props;   
-  return (
-    <>
-    <button onClick={() => {
-      setCurrentCategory("All Categories");
-    }}>
-    </button>
-        {category.map((category, index) => {
-            return (
-                <button key={index} onClick={setCurrentCategory}>{category}</button>
-            )
-        })}
-    </>
-  )
+    const { CategoryList, setCurrentCategory } = props;
+    return (
+        <>
+            <button
+                className='category_option'
+                onClick={() => {
+                    setCurrentCategory("All Categories")
+                }}
+            >All Categories</button>
+            {
+                CategoryList.map((category => {
+                    return <button
+                        className='category_option'
+                        onClick={() => {
+                            setCurrentCategory(category)
+                        }}
+                    >
+                        {category}
+                    </button>
+                }))
+            }
+
+        </>
+    )
 }
 
 export default Categories

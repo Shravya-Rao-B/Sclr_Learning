@@ -1,50 +1,83 @@
-const searchItem = (products, term) => 
-{
-    if(term == null){
-        return products;  // return all products if item is null or undefined
-    }
-    else 
-    {
-    let searchTerm = term.toLowerCase();
-    let productsArray = products.filter(item => {
-        return item.title.toLowerCase().includes(searchTerm)
-    })
-    return productsArray;
-}
-}
+import { minHeight } from "@mui/system";
 
-const sortArray = (arr,sortDir) => {
-    console.log("sorting", sortDir)
-    if(sortDir !==0){
-        let sortedArray = [];
-        if(sortDir == 1){
-            sortedArray = arr.sort((item1, item2) => {
-                return item1.price - item2.price;
-            })
-            return sortedArray;
-        }
-        else if (sortDir == -1) {
-            sortedArray = arr.sort((item1, item2) => {
-                return item2.price - item1.price;
-            })
-            return sortedArray;
+const searchItem = (arrayOfProducts, searchterm) => {
+    let modifiedArray = arrayOfProducts;
+    if (searchterm != "") {
+        modifiedArray = modifiedArray.filter((product) => {
+            let lowerCaseSearchTerm = searchterm.toLowerCase();
+            let lowerCaseTitle = product.title.toLowerCase();
 
-        }
+            return lowerCaseTitle.includes(lowerCaseSearchTerm);
+        });
     }
-    else {
-        return arr;
-    }
-}
-const categorization = (arr, currCategory) => {
-    if(currCategory != "All categories")
-    return arr.filter((item) => item.category === currCategory)
-    else 
-    return arr;
-}
-export default function basicOps(products, searchTerm, sortDir, currCategory){
-    console.log("products in utility func", sortDir);
-    let modifiedArray = searchItem(products,searchTerm);
-    modifiedArray = sortArray(modifiedArray,sortDir);
-    modifiedArray = categorization(modifiedArray,currCategory);
+
     return modifiedArray;
+}
+
+const sortingOfProducts = (arrayOfProducts, sortDir) => {
+    let modifiedArray = arrayOfProducts;
+    console.log(sortDir);
+    if (sortDir != 0) {
+        if (sortDir == 1) {
+            // increasing Order
+            modifiedArray = modifiedArray.sort((product1, product2) => {
+                return product1.price - product2.price;
+            });
+        } else {
+            // decreasing Order
+            modifiedArray = modifiedArray.sort((product1, product2) => {
+                return product2.price - product1.price;
+            });
+        }
+    }
+
+    return modifiedArray;
+}
+
+const categorization = (arrayOfProducts, currentCategory) => {
+    let modifiedArray = arrayOfProducts;
+    if (currentCategory != "All Categories") {
+        modifiedArray = modifiedArray.filter((product) => {
+            return product.category === currentCategory;
+        });
+    }
+    return modifiedArray;
+}
+
+const pagination = (arrayOfProducts, pageNum, pageSize) => {
+    let modifiedArray = arrayOfProducts;
+    let totalElement = modifiedArray.length;
+
+
+    let sidx = (pageNum - 1) * pageSize;
+    let eidx = sidx + (pageSize - 1);
+    if (eidx > totalElement - 1) {
+        eidx = totalElement - 1;
+    }
+
+    let totalPages = Math.ceil(totalElement / pageSize);
+    modifiedArray = modifiedArray.slice(sidx, eidx);
+    return { modifiedArray, totalPages };
+}
+
+
+
+export default function basicOps(products, searchTerm, sortDir, currentCategory, pageNum, pageSize) {
+    if (products == null || products.length == 0) {
+        return {products, pageSize};
+    }
+
+    console.log("Rajnesh: " + sortDir);
+    let modifiedArray = products;
+
+    /** ------------------- Filtering ------------------- */
+    modifiedArray = searchItem(modifiedArray, searchTerm);
+
+    /** ------------------- Sorting ------------------- */
+    modifiedArray = sortingOfProducts(modifiedArray, sortDir);
+
+     /** ------------------- Cate ------------------- */
+    modifiedArray = categorization(modifiedArray, currentCategory);
+
+    return pagination(modifiedArray, pageNum, pageSize);
 }

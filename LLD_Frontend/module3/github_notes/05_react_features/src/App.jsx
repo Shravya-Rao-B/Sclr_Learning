@@ -5,6 +5,8 @@ import Navbar from './components/Navbar'
 import PageNotFound from './components/PageNotFound'
 import Product from './components/Product'
 import ProductDetails from './components/ProductDetails'
+import User from './components/User'
+import Cart from './components/Cart'
 import './App.css'
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />}></Route>
         <Route path="/home" element={<Navigate to="/" />}></Route>
         <Route path="*" element={<PageNotFound />}></Route>
+        <Route path="/user" element={<User />}></Route>
+        <Route path="/cart" element={<Cart/>}></Route>
       </Routes>
     </>
   )
